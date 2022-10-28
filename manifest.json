@@ -1,0 +1,25 @@
+{
+  "name": "Rocketstart",
+  "description": "Maximize your opportunity to expand your professional network on LinkedIn through text analysis",
+  "version": "0.1",
+  "manifest_version": 3,
+  "icons": {
+    "192": "logo192.png",
+    "512": "logo512.png"
+  },
+  "permissions": ["scripting"],
+  "host_permissions": ["*://*.example.com/*"],
+  "action": {
+    "default_icon": "logo512.png",
+    "default_popup": "popup.html"
+  },
+
+  "content_scripts": [
+    {
+      "js": ["contentScript.js"],
+      "matches": [
+        "https://www.linkedin.com./in/*"
+      ]
+    }
+  ]
+}
