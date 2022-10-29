@@ -4,7 +4,7 @@
 This function checks if the active element is an input
 Or if the active element is editable
 */
-const isTextAreaOrInput= (element) => {
+const isTextAreaOrInput = (element) => {
     if(!element) {
         return false
     }
@@ -117,6 +117,37 @@ const listenToTyping = (element) => {
         }, waitTime);
     });
 };
+
+/*
+Button added to the text box being focused in on
+The button is created, and an onclick made
+An event listener "focusin" is created
+When a text box is focused in,
+The button is appended to the text box
+*/
+var btn = createButton();
+document.addEventListener('focusin', onFocusIn);
+
+function onFocusIn(event) {
+    var target = event.target;
+    if (isTextAreaOrInput(target))
+    {
+        appendButton(target);
+    }
+}
+
+function createButton() {
+    var btn = document.createElement('button');
+    btn.textContent = 'Yay!';
+    btn.onclick = function(event) {
+        btn.textContent += '!'; // Replace with popping open the popup HTML
+    };
+    return btn;
+}
+
+function appendButton(textElement) {
+    textElement.parentElement.insertBefore(btn, textElement.nextElementSibling);
+}
 
 /* Step 1
 Upon a match occuring ("https://www.linkedin.com./in/*"),
