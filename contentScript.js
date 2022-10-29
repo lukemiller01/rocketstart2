@@ -138,15 +138,43 @@ function onFocusIn(event) {
 
 function createButton() {
     var btn = document.createElement('button');
-    btn.textContent = 'Yay!';
+    btn.textContent = 'Rocketstart Insights';
     btn.onclick = function(event) {
-        btn.textContent += '!'; // Replace with popping open the popup HTML
+        toggleWindow()
+        // btn.textContent += '!';
     };
     return btn;
 }
 
 function appendButton(textElement) {
     textElement.parentElement.insertBefore(btn, textElement.nextElementSibling);
+}
+
+/*
+iFrame added as a right side panel
+The iframe will contain all the insights and reporting
+*/
+
+var iframe = document.createElement('iframe'); 
+iframe.style.background = "green";
+iframe.style.height = "100%";
+iframe.style.width = "0px";
+iframe.style.position = "fixed";
+iframe.style.top = "0px";
+iframe.style.right = "0px";
+iframe.style.zIndex = "9000000000000000000";
+iframe.style.border = "0px"; 
+iframe.src = chrome.runtime.getURL("popup.html")
+
+document.body.appendChild(iframe);
+
+function toggleWindow(){
+    if(iframe.style.width == "0px"){
+        iframe.style.width="400px";
+    }
+    else{
+        iframe.style.width="0px";
+    }
 }
 
 /* Step 1

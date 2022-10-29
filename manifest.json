@@ -21,5 +21,12 @@
         "https://www.linkedin.com./in/*"
       ]
     }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["popup.html"],
+      "matches": ["https://*/*", "http://*/*"]
+    }
   ]
 }
