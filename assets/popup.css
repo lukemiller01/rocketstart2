@@ -4,14 +4,21 @@
     flex-direction: column;
 }
 
+/* For title & header  */
 .title-block {
     display: flex;
     justify-content: center;
 }
 
+.exit__button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
 /* To bring insights into center */
 .section__margin {
-    margin: 0rem 2rem
+    margin: 0rem 4rem
 }
 
 /* Header text */
@@ -36,7 +43,6 @@ h2 {
 
 /* Individual insight structure */
 .insight {
-    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -50,8 +56,14 @@ h2 {
     max-width: 180px;
 }
 
+.insight__icon {
+    margin-right: 2rem;
+}
+
 /* Individual insight number structure */
 .insight__number {
     min-width: 30px;
     max-width: 50px;
+
+    text-align: center;
 }
