@@ -156,7 +156,7 @@ The iframe will contain all the insights and reporting
 */
 
 var iframe = document.createElement('iframe'); 
-iframe.style.background = "green";
+iframe.style.background = "white";
 iframe.style.height = "100%";
 iframe.style.width = "0px";
 iframe.style.position = "fixed";
