@@ -2,12 +2,14 @@
 .container {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 /* For title & header  */
 .title-block {
     display: flex;
     justify-content: center;
+    margin-top: 1rem;
 }
 
 .exit__button {
@@ -18,30 +20,42 @@
 
 /* To bring insights into center */
 .section__margin {
-    margin: 0rem 4rem
+    margin: 0rem 4rem;
+    padding: .5rem;
 }
+
+/* Removes default styles from headers */
+h1,h2,h3,h4,h5,h6 {
+    margin:0;
+    padding:0;
+ }
 
 /* Header text */
 h1 {
-    font-size: x-large;
+    font-size: large;
     font-weight: 800;
 }
 
 /* Insight title style */
 h2 {
-    font-size: large;
+    font-size: medium;
     font-weight: 500;
 }
 
-/* Insight container */
-.insights {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
+/* Insight number style */
+h3 {
+    margin: 0;
+    font-size: medium;
+    font-weight: 500;
 }
 
-/* Individual insight structure */
+/* Insight information */
+.insights {
+    width: 100%;
+    padding: 1rem;
+}
+
+/* Individual insight structure (not including slider */
 .insight {
     display: flex;
     justify-content: space-between;
@@ -49,15 +63,33 @@ h2 {
     flex-direction: row;
 }
 
+.insight__container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    border-style: solid;
+    border-color: lightgray;
+
+    margin-bottom: 1rem;
+}
+
 /* Individual insight title structure */
 .insight__title {
-    margin-right: 6rem;
-    min-width: 150px;
-    max-width: 180px;
+    padding: .5rem;
+    min-width: 115px;
+    max-width: 200px;
+}
+
+.insight__metrics {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .insight__icon {
-    margin-right: 2rem;
+    padding: .5rem;
 }
 
 /* Individual insight number structure */
@@ -66,4 +98,25 @@ h2 {
     max-width: 50px;
 
     text-align: center;
+    padding: .5rem
+}
+
+/* Slider styles */
+.insight__slider {
+
+    padding: 0;
+    margin: 0;
+    height: 8px;
+    appearance: none;
+    outline: none;
+    background:linear-gradient(90deg, rgba(244, 67, 54, 1) 0%, rgba(139, 192, 74, 1) 40%, rgba(139, 192, 74, 1) 60%, rgba(244, 67, 54, 1) 100%);
+}
+    
+/* Slider indicator */
+.insight__slider::-webkit-slider-thumb {
+    appearance: none;
+    appearance: none;
+    width: 3px;
+    height: 15px;
+    background: black;
 }

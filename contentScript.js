@@ -170,7 +170,7 @@ document.body.appendChild(iframe);
 
 function toggleWindow(){
     if(iframe.style.width == "0px"){
-        iframe.style.width="400px";
+        iframe.style.width="300px";
     }
     else{
         iframe.style.width="0px";
