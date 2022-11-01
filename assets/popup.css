@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    padding: 1rem;
 }
 
 /* For title & header  */
@@ -10,17 +12,14 @@
     display: flex;
     justify-content: center;
     margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .exit__button {
     position: absolute;
     top: 0px;
     right: 0px;
-}
-
-/* To bring insights into center */
-.section__margin {
-    margin: 0rem 4rem;
+    
     padding: .5rem;
 }
 
@@ -32,27 +31,26 @@ h1,h2,h3,h4,h5,h6 {
 
 /* Header text */
 h1 {
-    font-size: large;
+    font-size: medium;
     font-weight: 800;
 }
 
 /* Insight title style */
 h2 {
-    font-size: medium;
-    font-weight: 500;
+    font-size: small;
+    font-weight: 600;
 }
 
 /* Insight number style */
 h3 {
     margin: 0;
-    font-size: medium;
-    font-weight: 500;
+    font-size: small;
+    font-weight: 600;
 }
 
 /* Insight information */
 .insights {
     width: 100%;
-    padding: 1rem;
 }
 
 /* Individual insight structure (not including slider */
@@ -71,7 +69,9 @@ h3 {
     border-style: solid;
     border-color: lightgray;
 
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+
+    box-shadow: 5px 5px 10px gray;
 }
 
 /* Individual insight title structure */
@@ -89,7 +89,9 @@ h3 {
 }
 
 .insight__icon {
-    padding: .5rem;
+    padding: 0rem .5rem;
+
+    color: rgba(139, 192, 74, 1);
 }
 
 /* Individual insight number structure */
@@ -98,7 +100,8 @@ h3 {
     max-width: 50px;
 
     text-align: center;
-    padding: .5rem
+    padding: .5rem;
+    border-left:solid lightgray
 }
 
 /* Slider styles */
@@ -117,6 +120,6 @@ h3 {
     appearance: none;
     appearance: none;
     width: 3px;
-    height: 15px;
+    height: 11px;
     background: black;
 }
