@@ -140,21 +140,19 @@ function createButton() {
     var btn = document.createElement('button');
     btn.textContent = 'Rocketstart Insights';
     btn.onclick = function(event) {
-        toggleWindow()
-        // btn.textContent += '!';
+        toggleWindow();
     };
     return btn;
 }
 
 function appendButton(textElement) {
+    console.log("button append");
     textElement.parentElement.insertBefore(btn, textElement.nextElementSibling);
 }
 
 /*
 iFrame added as a right side panel
-The iframe will contain all the insights and reporting
 */
-
 var iframe = document.createElement('iframe'); 
 iframe.style.background = "white";
 iframe.style.height = "100%";
@@ -173,7 +171,7 @@ function toggleWindow(){
         iframe.style.width="300px";
     }
     else{
-        iframe.style.width="0px";
+        iframe.style.width = "0px";
     }
 }
 
@@ -185,3 +183,12 @@ And if any typing is occuring
 listenActiveElement(function (element) {
     listenToTyping(element);
 });
+
+console.log("content script fired");
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     var exit = document.getElementById('exit');
+//     exit.addEventListener('click', function() {
+//         toggleWindow();
+//     });
+// });

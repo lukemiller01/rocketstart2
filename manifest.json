@@ -24,7 +24,7 @@
 
   "web_accessible_resources": [
     {
-      "resources": ["popup.html"],
+      "resources": ["popup.html","contentScript.js"],
       "matches": ["https://*/*", "http://*/*"]
     }
   ]

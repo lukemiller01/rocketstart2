@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./assets/popup.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- JS loaded before HTML, and element does not exist in DOM. Defer needed. -->
+    <script src="contentScript.js" defer></script>
     <title>Rocketstart Insights</title>
 </head>
 <body class="container">
   <div class="title-block">
     <h1>Rocketstart Insights</h1>
-    <span class="material-icons exit__button">close</span>
+    <span class="material-icons exit__button" id="exit">close</span>
   </div>
   <div class="insights">
 
@@ -32,7 +34,7 @@
       <div class="insight">
         <h2 class="insight__title">Introduction</h2>
         <div class="insight__metrics">
-          <span class="material-icons insight__icon">done</span>
+          <span class="material-icons insight__icon" id="exit">done</span>
           <h3 class="insight__number">45</h3>
         </div>
       </div>
