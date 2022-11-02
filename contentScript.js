@@ -133,6 +133,7 @@ function onFocusIn(event) {
     if (isTextAreaOrInput(target))
     {
         appendButton(target);
+        createFrame();
     }
 }
 
@@ -146,25 +147,33 @@ function createButton() {
 }
 
 function appendButton(textElement) {
-    console.log("button append");
     textElement.parentElement.insertBefore(btn, textElement.nextElementSibling);
+}
+
+function createFrame() {
+    iframe.style.background = "white";
+    iframe.style.height = "100%";
+    iframe.style.width = "0px";
+    iframe.style.position = "fixed";
+    iframe.style.top = "0px";
+    iframe.style.right = "0px";
+    iframe.style.zIndex = "9000000000000000000";
+    iframe.style.border = "0px"; 
+    iframe.src = chrome.runtime.getURL("popup.html")
+    document.body.appendChild(iframe);
+
+    // var exit = iframe.contentDocument.getElementById("exit");
+    // exit.onclick = function() {
+    //     toggleWindow();
+    // };
 }
 
 /*
 iFrame added as a right side panel
 */
-var iframe = document.createElement('iframe'); 
-iframe.style.background = "white";
-iframe.style.height = "100%";
-iframe.style.width = "0px";
-iframe.style.position = "fixed";
-iframe.style.top = "0px";
-iframe.style.right = "0px";
-iframe.style.zIndex = "9000000000000000000";
-iframe.style.border = "0px"; 
-iframe.src = chrome.runtime.getURL("popup.html")
+var iframe = document.createElement('iframe');
 
-document.body.appendChild(iframe);
+
 
 function toggleWindow(){
     if(iframe.style.width == "0px"){
@@ -183,12 +192,3 @@ And if any typing is occuring
 listenActiveElement(function (element) {
     listenToTyping(element);
 });
-
-console.log("content script fired");
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     var exit = document.getElementById('exit');
-//     exit.addEventListener('click', function() {
-//         toggleWindow();
-//     });
-// });
