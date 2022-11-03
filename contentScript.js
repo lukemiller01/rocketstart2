@@ -70,7 +70,7 @@ And the user is treated as "Not typing"
 const listenToTyping = (element) => {
     var timer; // Timer identifier
     var activeTypingTimer; // Timer identifier
-    var waitTime = 3000; // Wait time in milliseconds
+    var waitTime = 1500; // Wait time in milliseconds
     var lastInput = element.value
     var activelyTyping = false
     var lastTypeTime = new Date().getTime();
@@ -110,8 +110,12 @@ const listenToTyping = (element) => {
         timer = setTimeout( function () {
             if (text !== lastInput) {
                 if(!activelyTyping) {
-                    console.log("Fxnl ✅"); // Change function after test
                     lastInput = text;
+                    words = lastInput.split(" ").length - 1; // Count the words in the input
+                    chrome.runtime.sendMessage({
+                        from: 'contentScript',
+                        subject: 'updateUI',
+                        words: words});
                 }
             }
         }, waitTime);
@@ -133,7 +137,6 @@ function onFocusIn(event) {
     if (isTextAreaOrInput(target))
     {
         appendButton(target);
-        createFrame();
     }
 }
 
@@ -172,8 +175,7 @@ function createFrame() {
 iFrame added as a right side panel
 */
 var iframe = document.createElement('iframe');
-
-
+createFrame();
 
 function toggleWindow(){
     if(iframe.style.width == "0px"){

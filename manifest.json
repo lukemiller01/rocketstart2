@@ -2,6 +2,7 @@
   "name": "Rocketstart",
   "description": "Maximize your opportunity to expand your professional network on LinkedIn through text analysis",
   "version": "0.1",
+  "offline_enabled": true,
   "manifest_version": 3,
   "icons": {
     "192": "assets/logo192.png",
