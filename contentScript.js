@@ -8,7 +8,6 @@ function messageAnalysis(text) {
         // The text should be counted as 1 paragraph
     var re = new RegExp("\n\n$");
     if (re.test(text)) {
-        console.log('Decremented!');
         paragraphs--;
     }
     else if(text === ""){
