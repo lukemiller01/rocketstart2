@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <!-- JS loaded before HTML, and element does not exist in DOM. Defer needed. -->
     <!-- <script src="contentScript.js" defer></script> -->
-    <script type="text/javascript" src="popup.js"></script>
+    <script type="text/javascript" src="popup.js" defer></script>
     <title>Rocketstart Insights</title>
 </head>
 <body class="container">
@@ -18,34 +18,34 @@
   </div>
   <div class="insights">
 
-    <!-- Insight #0: Word Count -->
+    <!-- Insight #0: Structure -->
     <div class="insight__container">
       <div class="insight">
-        <h2 class="insight__title">Words</h2>
+        <h2 class="insight__title">Paragraphs</h2>
         <div class="insight__metrics">
-          <span class="material-icons insight__icon">done</span>
-          <h3 class="insight__number" id="words">0</h3>
+          <span class="material-icons insight__icon" id="check1">done</span>
+          <h3 class="insight__number" id="paragraphs">0</h3>
         </div>
       </div>
       <input type="range" disabled min="0" max="10" value="5" class="insight__slider"/>
     </div>
 
-    <!-- Insight #1: Greeting -->
+    <!-- Insight #1: Question -->
     <div class="insight__container">
       <div class="insight">
-        <h2 class="insight__title">Greeting</h2>
+        <h2 class="insight__title">Question Count</h2>
         <div class="insight__metrics">
-          <span class="material-icons insight__icon">done</span>
-          <h3 class="insight__number">2</h3>
+          <span class="material-icons insight__icon" id="check2">done</span>
+          <h3 class="insight__number" id="questions">0</h3>
         </div>
       </div>
       <input type="range" disabled min="0" max="10" value="5" class="insight__slider"/>
     </div>
 
-    <!-- Insight #2: Introduction -->
+    <!-- Insight #2: Grade level -->
     <div class="insight__container">
       <div class="insight">
-        <h2 class="insight__title">Introduction</h2>
+        <h2 class="insight__title">Grade Level</h2>
         <div class="insight__metrics">
           <span class="material-icons insight__icon" id="exit">done</span>
           <h3 class="insight__number">45</h3>
@@ -54,28 +54,16 @@
       <input type="range" disabled min="0" max="10" value="4" class="insight__slider"/>
     </div>
 
-    <!-- Insight #3: Call to Action -->
+    <!-- Insight #3: Language -->
     <div class="insight__container">
       <div class="insight">
-        <h2 class="insight__title">Call to Action</h2>
+        <h2 class="insight__title">Language</h2>
         <div class="insight__metrics">
           <span class="material-icons insight__icon">done</span>
           <h3 class="insight__number">25</h3>
         </div>
       </div>
       <input type="range" disabled min="0" max="10" value="7" class="insight__slider"/>
-    </div>
-
-    <!-- Insight #4: Grade Level -->
-    <div class="insight__container">
-      <div class="insight">
-        <h2 class="insight__title">Grade Level</h2>
-        <div class="insight__metrics">
-          <span class="material-icons insight__icon">done</span>
-          <h3 class="insight__number">6</h3>
-        </div>
-      </div>
-      <input type="range" disabled min="0" max="10" value="5" class="insight__slider"/>
     </div>
 
   </div>

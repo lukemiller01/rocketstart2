@@ -1,5 +1,31 @@
 /* Need to capture the element the user is currently focused on (a text box) */
 
+function messageAnalysis(text) {
+    // Paragraphs, where a double line break (or more) separated by nothing is one paragraph
+    paragraphs = text.split(/\n\s*\n/).length;
+
+    // If there's a double return and no start to the second paragraph:
+        // The text should be counted as 1 paragraph
+    var re = new RegExp("\n\n$");
+    if (re.test(text)) {
+        console.log('Decremented!');
+        paragraphs--;
+    }
+    else if(text === ""){
+        paragraphs = 0;
+    }
+    
+    // Questions, where one question mark means one question
+    questions = text.split("?").length - 1;
+
+    var pack = {
+        paragraphs: paragraphs,
+        questions: questions
+      };
+
+    return pack;
+}
+
 /* Step 3
 This function checks if the active element is an input
 Or if the active element is editable
@@ -111,11 +137,13 @@ const listenToTyping = (element) => {
             if (text !== lastInput) {
                 if(!activelyTyping) {
                     lastInput = text;
-                    words = lastInput.split(" ").length - 1; // Count the words in the input
+                    dataPack = messageAnalysis(lastInput);
                     chrome.runtime.sendMessage({
                         from: 'contentScript',
                         subject: 'updateUI',
-                        words: words});
+                        paragraphs: dataPack.paragraphs,
+                        questions: dataPack.questions,
+                    });
                 }
             }
         }, waitTime);
