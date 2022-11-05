@@ -21,6 +21,8 @@
     right: 0px;
     
     padding: .5rem;
+
+    cursor: pointer;
 }
 
 /* Removes default styles from headers */

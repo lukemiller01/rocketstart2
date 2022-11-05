@@ -221,3 +221,12 @@ And if any typing is occuring
 listenActiveElement(function (element) {
     listenToTyping(element);
 });
+
+// Listen for messages from the popup.
+chrome.runtime.onMessage.addListener((msg, sender, response) => {
+    console.log("received");
+    // First, validate the message's structure.
+    if ((msg.from === 'popup') && (msg.subject === 'closeFrame')) {
+        toggleWindow();
+    }
+});

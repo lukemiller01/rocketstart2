@@ -26,7 +26,7 @@ const setInfo = info => {
   }
 };
 
-// Listen for messages from the popup.
+// Listen for messages from the contentScript.
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
     // First, validate the message's structure.
     if ((msg.from === 'contentScript') && (msg.subject === 'updateUI')) {
@@ -43,6 +43,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
 // Used in async functions to animate the slider activity
 const timer = ms => new Promise(res => setTimeout(res, ms))
 
+// Adding discrete asynchronous functions for every insight
 async function animateSlider(insight, target) {
 
   // The value is the target
@@ -87,6 +88,18 @@ async function animateSlider2(insight, target) {
   }
 };
 
+// Listen for messages to close the iframe from popup.js
+document.getElementById('exit').addEventListener('click',function(){
+  chrome.tabs.getCurrent(tab => {
+    chrome.tabs.sendMessage(tab.id, {
+      from: 'popup',
+      subject: 'closeFrame',
+    }, {frameId: 0});
+  });
+});
+
 // By default, hide all check values.
 var check1 = document.getElementById('check1').style.display = "none";
 var check2 = document.getElementById('check2').style.display = "none";
+var check3 = document.getElementById('check3').style.display = "none";
+var check4 = document.getElementById('check4').style.display = "none";
