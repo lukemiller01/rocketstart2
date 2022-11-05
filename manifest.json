@@ -11,7 +11,7 @@
   "permissions": ["scripting"],
   "host_permissions": ["*://*.example.com/*"],
   "action": {
-    "default_icon": "logo512.png",
+    "default_icon": "assets/logo512.png",
     "default_popup": "popup.html"
   },
 
