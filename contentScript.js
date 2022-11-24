@@ -28,6 +28,8 @@ function messageAnalysis(text) {
 /* Step 3
 This function checks if the active element is an input
 Or if the active element is editable
+This function also validates that the input is the invitation input.
+Not the search input, or any other input.
 */
 const isTextAreaOrInput = (element) => {
     if(!element) {
@@ -36,7 +38,7 @@ const isTextAreaOrInput = (element) => {
 
     // Change the tag name to uppercase before comparing:
     const tagName = element.tagName.toUpperCase();
-    if (tagName === "TEXTAREA" || tagName === "INPUT")
+    if (tagName === "TEXTAREA" || tagName === "INPUT" && element.placeholder == "Ex: We know each other from…")
     {
         return true;
     }
@@ -44,7 +46,7 @@ const isTextAreaOrInput = (element) => {
     // Check if content is editable:
 
     var isContentEditable = element.getAttribute('contenteditable');
-    if (isContentEditable) {
+    if (isContentEditable && element.placeholder == "Ex: We know each other from…") {
         return true;
     }
 
@@ -169,7 +171,11 @@ function onFocusIn(event) {
 
 function createButton() {
     var btn = document.createElement('button');
-    btn.textContent = 'Rocketstart Insights';
+    btn.textContent = 'Rocketstart';
+    btn.style.fontWeight = "500"
+    btn.style.padding = ".75rem"
+    btn.style.border = "1px solid black"
+    btn.style.borderRadius = ".4rem"
     btn.onclick = function(event) {
         toggleWindow();
     };
