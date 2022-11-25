@@ -172,17 +172,54 @@ function onFocusIn(event) {
 function createButton() {
     var btn = document.createElement('button');
     btn.textContent = 'Rocketstart';
-    btn.style.fontWeight = "500"
+    btn.style.textAlign = "center"
     btn.style.padding = ".75rem"
-    btn.style.border = "1px solid black"
-    btn.style.borderRadius = ".4rem"
+    
+    btn.style.display = "flex"
+    btn.style.flexDirection = "column"
     btn.onclick = function(event) {
         toggleWindow();
     };
     return btn;
 }
 
+/*
+Update to appendButton:
+
+The button should contain the same styles as the LinkedIn UI
+    W.R.T both the text style and box style
+
+These styles aren't available when the button is created,
+So they're being implemented onto the button when the button is appended, or
+On the popup for the connection message draft.
+*/
 function appendButton(textElement) {
+    // Font styling
+    const linkedinParagraph = document.getElementsByClassName("t-14 pb2");
+    const paragraphObj = window.getComputedStyle(linkedinParagraph[0]);
+    var fontSize = paragraphObj.getPropertyValue("font-size");
+    var fontWeight = paragraphObj.getPropertyValue("font-weight");
+    btn.style.fontSize = fontSize
+    btn.style.fontWeight = fontWeight
+
+    // Box styling
+    const linkedinBox = document.getElementById("custom-message");
+    const boxObj = window.getComputedStyle(linkedinBox);
+    var borderRadius = boxObj.getPropertyValue("border-radius");
+    var borderColor = boxObj.getPropertyValue("border-color");
+    var boxShadow = boxObj.getPropertyValue("box-shadow");
+    console.log(boxShadow)
+    btn.style.borderRadius = borderRadius
+    btn.style.borderColor = borderColor
+    // The Linkedin custom message box border changes on focus
+    // But the Rocketstart button should be static
+    // The button is appended every focus-in
+    // Therefore, the boxShadow should only be changed if it has the default value
+    if (boxShadow == "rgba(0, 0, 0, 0.6) 0px 0px 0px 1px inset") {
+        btn.style.boxShadow = boxShadow
+    }
+
+    // Appending button
     textElement.parentElement.insertBefore(btn, textElement.nextElementSibling);
 }
 
