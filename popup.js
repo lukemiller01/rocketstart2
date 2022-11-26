@@ -11,6 +11,11 @@ const setInfo = info => {
   // 2) Update the questions slider.
   animateSlider2(2,info.questions*100);
 
+  // 1) Update the Grade Level text
+  document.getElementById('grade').textContent = info.grade;
+  // 2) Update the Grade Level Slider.
+  animateSlider3(3,info.grade*100);
+
   // Logic for displaying checks
   if(info.paragraphs !== 3) {
     var check1 = document.getElementById('check1').style.display = "none";
@@ -24,6 +29,12 @@ const setInfo = info => {
   else {
     var check2 = document.getElementById('check2').style.display = "flex";
   }
+  if(info.grade <= 7) {
+    var check3 = document.getElementById('check3').style.display = "flex";
+  }
+  else {
+    var check3 = document.getElementById('check3').style.display = "none";
+  }
 };
 
 // Listen for messages from the contentScript.
@@ -32,7 +43,8 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     if ((msg.from === 'contentScript') && (msg.subject === 'updateUI')) {
       var updatedInfo = {
         paragraphs: msg.paragraphs,
-        questions: msg.questions
+        questions: msg.questions,
+        grade: msg.grade
       };
   
       setInfo(updatedInfo);
@@ -83,6 +95,28 @@ async function animateSlider2(insight, target) {
     while (rangeValue2 !== target) {
       rangeValue2--;
       document.getElementById(insightId2).value = rangeValue2;
+      await timer(5);
+    }
+  }
+};
+
+async function animateSlider3(insight, target) {
+
+  // The value is the target
+  insightId3 = "range" + insight; // Ex: "range1" as a string
+  var rangeValue3 = document.getElementById(insightId3).value; // Old value
+
+  if(rangeValue3<target) { // If the old value is less than the target, it needs to increase
+    while (rangeValue3 !== target) {
+      rangeValue3++;
+      document.getElementById(insightId3).value = rangeValue3;
+      await timer(5);
+    }
+  }
+  else if(rangeValue3>target) { // If the old value is more than the target, it needs to decrease
+    while (rangeValue3 !== target) {
+      rangeValue3--;
+      document.getElementById(insightId3).value = rangeValue3;
       await timer(5);
     }
   }

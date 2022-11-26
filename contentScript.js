@@ -1,5 +1,21 @@
 /* Need to capture the element the user is currently focused on (a text box) */
 
+// Counts the number of syllables per word
+function syllable(word) {
+    word = word.toLowerCase();
+    // Removes anything that's not an english character (dashes, line breaks)
+    word = word.replace(/[^a-z]/, '')
+    // Special cases
+        // TODO: Print 1000 of the top most used common words and check against a known program
+            // Known words that are broken: something, somewhere, sometime, somehow
+    word = word.replace(/(?:[^laeiouy]es|[^laeiouy]e)$/, '');
+    word = word.replace(/^y/, '');
+
+    if (word) {
+        return word.match(/[aeiouy]{1,2}/g).length;
+    }
+  }
+
 function messageAnalysis(text) {
     // Paragraphs, where a double line break (or more) separated by nothing is one paragraph
     paragraphs = text.split(/\n\s*\n/).length;
@@ -15,11 +31,70 @@ function messageAnalysis(text) {
     }
     
     // Questions, where one question mark means one question
-    questions = text.split("?").length - 1;
+    questions = text.split(/\?{1,}/).length - 1
+
+    // Grade Level, characterized by Flesch-Kincaid
+    // # of words
+    // numWords = text.split(" ").length + 1
+    numWords = text.split(/\S*[a-z]\S*/).length - 1
+
+    // # of sentences, includes periods, exclamation, questions
+    numSentences = text.split('.').length + text.split(/\!{1,}/).length + questions - 2
+
+    // # of syllables
+    numSyllables = 0
+    text = text.replace('\'','') // Removing apostrophes '
+    var wordList = text.split(/[^A-Za-z]/);
+    var wordCount = wordList.length
+    for (i = 0; i < wordCount; i++) {
+        if (wordList[i] != '') { // If the word is not empty (some words like '-' have already been made '')
+            numSyllables = numSyllables + syllable(wordList[i])
+        }
+    }
+
+    // console.clear()
+    // console.log("Words:", numWords)
+    // console.log("Sentences:", numSentences)
+    // console.log("Syllables:", numSyllables)
+
+    // Flesch-Kincaid
+    // Grade level
+    // gradeLevel = .39 * (numWords/numSentences) + 11.8 * (numSyllables / numWords) - 15.59
+    readingLevel = 206.835 - 1.015*(numWords/numSentences) - 84.6*(numSyllables / numWords)
+    // console.log(readingLevel)
+    switch(true) {
+        case (readingLevel <= 50):
+            grade = 12
+            break;
+        case (readingLevel > 50 && readingLevel <= 55):
+            grade = 11
+            break;
+        case (readingLevel > 55 && readingLevel <= 60):
+            grade = 10
+            break;
+        case (readingLevel > 60 && readingLevel <= 65):
+            grade = 9
+            break;
+        case (readingLevel > 65 && readingLevel <= 70):
+            grade = 8
+            break;
+        case (readingLevel > 70 && readingLevel <= 80):
+            grade = 7;
+            break;
+        case (readingLevel > 80 && readingLevel <= 90):
+            grade = 6;
+            break;
+        case (readingLevel > 90 && readingLevel <= 100):
+            grade = 5;
+            break;
+        default:
+            grade = 5
+    }
 
     var pack = {
         paragraphs: paragraphs,
-        questions: questions
+        questions: questions,
+        grade: grade
       };
 
     return pack;
@@ -144,6 +219,7 @@ const listenToTyping = (element) => {
                         subject: 'updateUI',
                         paragraphs: dataPack.paragraphs,
                         questions: dataPack.questions,
+                        grade: dataPack.grade,
                     });
                 }
             }
@@ -208,7 +284,6 @@ function appendButton(textElement) {
     var borderRadius = boxObj.getPropertyValue("border-radius");
     var borderColor = boxObj.getPropertyValue("border-color");
     var boxShadow = boxObj.getPropertyValue("box-shadow");
-    console.log(boxShadow)
     btn.style.borderRadius = borderRadius
     btn.style.borderColor = borderColor
     // The Linkedin custom message box border changes on focus
@@ -267,7 +342,6 @@ listenActiveElement(function (element) {
 
 // Listen for messages from the popup.
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
-    console.log("received");
     // First, validate the message's structure.
     if ((msg.from === 'popup') && (msg.subject === 'closeFrame')) {
         toggleWindow();
