@@ -17,9 +17,8 @@
     <span class="material-icons exit__button" id="exit">close</span>
   </div>
   <div class="insights">
-
     <!-- Insight #0: Structure -->
-    <div class="insight__container">
+    <div class="insight__container" id="paragraph__container">
       <div class="insight">
         <h2 class="insight__title">Paragraphs</h2>
         <div class="insight__metrics">
@@ -31,7 +30,7 @@
     </div>
 
     <!-- Insight #1: Question -->
-    <div class="insight__container">
+    <div class="insight__container" id="question__container">
       <div class="insight">
         <h2 class="insight__title">Question Count</h2>
         <div class="insight__metrics">
@@ -43,7 +42,7 @@
     </div>
 
     <!-- Insight #2: Grade level -->
-    <div class="insight__container">
+    <div class="insight__container" id="grade__container">
       <div class="insight">
         <h2 class="insight__title">Grade Level</h2>
         <div class="insight__metrics">
@@ -55,9 +54,9 @@
     </div>
 
     <!-- Insight #3: Language -->
-    <div class="insight__container">
+    <div class="insight__container" id="wording__container">
       <div class="insight">
-        <h2 class="insight__title">Language</h2>
+        <h2 class="insight__title">Wording</h2>
         <div class="insight__metrics">
           <span class="material-icons insight__icon" id="check4">done</span>
           <h3 class="insight__number">0</h3>
@@ -65,7 +64,44 @@
       </div>
       <input type="range" disabled min="0" max="10" value="0" class="insight__slider"/>
     </div>
-
+  </div>
+  <hr class="horizontal__rule">
+  <div class="insights">
+    <!-- Explanation #0: Paragraphs -->
+    <div class="explanation__container" id="paragraph__explanation">
+      <h2 class="insight__title">Paragraphs</h2>
+      <p>
+        Studies show that the brain likes to be presented with three choices.
+        Anything higher leads to confusion.
+        Break your message into three components:
+        a greeting, introduction & call to action, and a farewell.
+      </p>
+    </div>
+    <!-- Explanation #1: Questions -->
+    <div class="explanation__container" id="question__explanation">
+      <h2 class="insight__title">Question Count</h2>
+      <p>
+        Include a call to action in your message.
+        Your recipient should learn why you're interested in connecting with them.
+      </p>
+    </div>
+    <!-- Explanation #2: Grade -->
+    <div class="explanation__container" id="grade__explanation">
+      <h2 class="insight__title">Grade Level</h2>
+      <p>
+        Make your message easy to read.
+        Your message will be more clear with short sentences and accessible words.
+      </p>
+    </div>
+    <!-- Explanation #3: Wording -->
+    <div class="explanation__container" id="wording__explanation">
+      <h2 class="insight__title">Wording</h2>
+      <p>
+        Avoid adjectives, weak verbs, and ineffective nouns.
+        You'll save characters and make your message pop out.
+        Hint: use "call" instead of "meet" or "intro" instead of "introduction".
+      </p>
+    </div>
   </div>
 </body>
 </html>

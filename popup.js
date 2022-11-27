@@ -29,7 +29,7 @@ const setInfo = info => {
   else {
     var check2 = document.getElementById('check2').style.display = "flex";
   }
-  if(info.grade <= 7) {
+  if(info.grade > 0 && info.grade <= 7) {
     var check3 = document.getElementById('check3').style.display = "flex";
   }
   else {
@@ -137,3 +137,38 @@ var check1 = document.getElementById('check1').style.display = "none";
 var check2 = document.getElementById('check2').style.display = "none";
 var check3 = document.getElementById('check3').style.display = "none";
 var check4 = document.getElementById('check4').style.display = "none";
+// By default, hide all explanations.
+var explanation1 = document.getElementById("paragraph__explanation").style.display = "none";
+var explanation2 = document.getElementById("question__explanation").style.display = "none";
+var explanation3 = document.getElementById("grade__explanation").style.display = "none";
+var explanation4 = document.getElementById("wording__explanation").style.display = "none";
+
+// Listen for messages to change the explanation section
+// Paragraph explanation
+document.getElementById("paragraph__container").addEventListener('click', function(){
+  document.getElementById("question__explanation").style.display = "none";
+  document.getElementById("grade__explanation").style.display = "none";
+  document.getElementById("wording__explanation").style.display = "none";
+  document.getElementById("paragraph__explanation").style.display = "block";
+});
+// Question explanation
+document.getElementById("question__container").addEventListener('click', function(){
+  document.getElementById("grade__explanation").style.display = "none";
+  document.getElementById("wording__explanation").style.display = "none";
+  document.getElementById("paragraph__explanation").style.display = "none";
+  document.getElementById("question__explanation").style.display = "block";
+});
+// Grade explanation
+document.getElementById("grade__container").addEventListener('click', function(){
+  document.getElementById("paragraph__explanation").style.display = "none";
+  document.getElementById("question__explanation").style.display = "none";
+  document.getElementById("wording__explanation").style.display = "none";
+  document.getElementById("grade__explanation").style.display = "block";
+});
+// Wording explanation
+document.getElementById("wording__container").addEventListener('click', function(){
+  document.getElementById("grade__explanation").style.display = "none";
+  document.getElementById("paragraph__explanation").style.display = "none";
+  document.getElementById("question__explanation").style.display = "none";
+  document.getElementById("wording__explanation").style.display = "block";
+});
