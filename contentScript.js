@@ -103,32 +103,13 @@ function messageAnalysis(text) {
 }
 
 /* Step 3
-This function checks if the active element is an input
-Or if the active element is editable
-This function also validates that the input is the invitation input.
-Not the search input, or any other input.
+This function checks if the active element is the right input
 */
 const isTextAreaOrInput = (element) => {
-    if(!element) {
-        return false
+    if (element.id == "custom-message") {
+        return true
     }
-
-    // Change the tag name to uppercase before comparing:
-    const tagName = element.tagName.toUpperCase();
-    if (tagName === "TEXTAREA" || tagName === "INPUT" && element.placeholder == "Ex: We know each other from…")
-    {
-        return true;
-    }
-
-    // Check if content is editable:
-
-    var isContentEditable = element.getAttribute('contenteditable');
-    if (isContentEditable && element.placeholder == "Ex: We know each other from…") {
-        return true;
-    }
-
-    // If none of the above conditions are met:
-    return false
+    return false;
 }
 
 /* Step 2
@@ -139,17 +120,23 @@ For Step 4
 */
 const listenActiveElement = function (callback) {
     let lastActiveElement = document.activeElement;
-    // Is the element an input?
-    if(isTextAreaOrInput(lastActiveElement)) {
-        callback(lastActiveElement);
-    }
 
     // If the focus changes
     const detectFocus = () => {
         if(lastActiveElement !== document.activeElement) {
             lastActiveElement = document.activeElement
             if(isTextAreaOrInput(lastActiveElement)) {
-                callback(lastActiveElement)
+                callback(lastActiveElement);
+                appendButton(lastActiveElement);
+            }
+            else {
+                chrome.runtime.sendMessage({
+                    from: 'contentScript',
+                    subject: 'updateUI',
+                    paragraphs: 0,
+                    questions: 0,
+                    grade: 0,
+                });
             }
         }
     };
@@ -166,7 +153,6 @@ Listen for a "keyup" event
 When a key is released, the text is saved and the timer is cleared
 So the timer for inactivity can begin again
 
-After a certain amount of time has passed,
 If the text isn't changed after a certain amount of time,
 The last input is collected
 And the user is treated as "Not typing"
@@ -178,6 +164,15 @@ const listenToTyping = (element) => {
     var lastInput = element.value
     var activelyTyping = false
     var lastTypeTime = new Date().getTime();
+
+    dataPack = messageAnalysis(lastInput);
+    chrome.runtime.sendMessage({
+        from: 'contentScript',
+        subject: 'updateUI',
+        paragraphs: dataPack.paragraphs,
+        questions: dataPack.questions,
+        grade: dataPack.grade,
+    });
 
     // Event listener for the keydown event
     element.addEventListener("keydown", function (e) {
@@ -237,15 +232,6 @@ When a text box is focused in,
 The button is appended to the text box
 */
 var btn = createButton();
-document.addEventListener('focusin', onFocusIn);
-
-function onFocusIn(event) {
-    var target = event.target;
-    if (isTextAreaOrInput(target))
-    {
-        appendButton(target);
-    }
-}
 
 function createButton() {
     var btn = document.createElement('button');
