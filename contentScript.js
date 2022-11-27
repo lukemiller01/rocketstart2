@@ -10,8 +10,7 @@ function syllable(word) {
             // Known words that are broken: something, somewhere, sometime, somehow
     word = word.replace(/(?:[^laeiouy]es|[^laeiouy]e)$/, '');
     word = word.replace(/^y/, '');
-
-    if (word) {
+    if (word && word.match(/[aeiouy]{1,2}/g)) {
         return word.match(/[aeiouy]{1,2}/g).length;
     }
   }
@@ -60,35 +59,38 @@ function messageAnalysis(text) {
     // Flesch-Kincaid
     // Grade level
     // gradeLevel = .39 * (numWords/numSentences) + 11.8 * (numSyllables / numWords) - 15.59
-    readingLevel = 206.835 - 1.015*(numWords/numSentences) - 84.6*(numSyllables / numWords)
-    // console.log(readingLevel)
-    switch(true) {
-        case (readingLevel <= 50):
-            grade = 12
-            break;
-        case (readingLevel > 50 && readingLevel <= 55):
-            grade = 11
-            break;
-        case (readingLevel > 55 && readingLevel <= 60):
-            grade = 10
-            break;
-        case (readingLevel > 60 && readingLevel <= 65):
-            grade = 9
-            break;
-        case (readingLevel > 65 && readingLevel <= 70):
-            grade = 8
-            break;
-        case (readingLevel > 70 && readingLevel <= 80):
-            grade = 7;
-            break;
-        case (readingLevel > 80 && readingLevel <= 90):
-            grade = 6;
-            break;
-        case (readingLevel > 90 && readingLevel <= 100):
-            grade = 5;
-            break;
-        default:
-            grade = 5
+    grade = 0
+    if (text != '') {
+        readingLevel = 206.835 - 1.015*(numWords/numSentences) - 84.6*(numSyllables / numWords)
+        // console.log(readingLevel)
+        switch(true) {
+            case (readingLevel <= 50):
+                grade = 12
+                break;
+            case (readingLevel > 50 && readingLevel <= 55):
+                grade = 11
+                break;
+            case (readingLevel > 55 && readingLevel <= 60):
+                grade = 10
+                break;
+            case (readingLevel > 60 && readingLevel <= 65):
+                grade = 9
+                break;
+            case (readingLevel > 65 && readingLevel <= 70):
+                grade = 8
+                break;
+            case (readingLevel > 70 && readingLevel <= 80):
+                grade = 7;
+                break;
+            case (readingLevel > 80 && readingLevel <= 90):
+                grade = 6;
+                break;
+            case (readingLevel > 90 && readingLevel <= 100):
+                grade = 5;
+                break;
+            default:
+                grade = 5
+        }
     }
 
     var pack = {
