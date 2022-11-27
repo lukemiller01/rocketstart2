@@ -116,27 +116,42 @@ p {
     border-left:solid lightgray
 }
 
-/* Slider styles */
+/* Slider box */
 .insight__slider {
-
+    display: flex;
+    width: calc(100% - 3px);
+    position: relative;
     cursor: pointer;
     padding: 0;
     margin: 0;
     height: 8px;
-    appearance: none;
-    outline: none;
-    background:linear-gradient(90deg, rgba(244, 67, 54, 1) 0%, rgba(139, 192, 74, 1) 40%, rgba(139, 192, 74, 1) 60%, rgba(244, 67, 54, 1) 100%);
-}
-    
-/* Slider indicator */
-.insight__slider::-webkit-slider-thumb {
-    appearance: none;
-    appearance: none;
-    width: 3px;
-    height: 11px;
-    background: black;
 }
 
+/* Slider indicator styles */
+.slider__rectangle {
+    display: flex;
+    position: relative;
+    z-index: 1;
+    width: 3px;
+    /* margin-top: -8px; */
+    height: 8px;
+    background: black;
+    border-width: 2px;
+
+    transition: all 1s ease-out;
+}
+
+.slider__gradient {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    margin-top: -8px;
+    height: 8px;
+    background:linear-gradient(90deg, rgba(244, 67, 54, 1) 0%, rgba(139, 192, 74, 1) 40%, rgba(139, 192, 74, 1) 60%, rgba(244, 67, 54, 1) 100%);
+}
+
+/* Horizontal rule separating insights from explanations */
 .horizontal__rule {
     display: flex;
     border-width: 0;
