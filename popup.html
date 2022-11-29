@@ -17,7 +17,7 @@
     <span class="material-icons exit__button" id="exit">close</span>
   </div>
   <div class="insights">
-    <!-- Insight #0: Structure -->
+    <!-- Insight #0: Paragraph -->
     <div class="insight__container" id="paragraph__container">
       <div class="insight">
         <h2 class="insight__title">Paragraphs</h2>
@@ -31,7 +31,7 @@
           <div class="slider__rectangle" id="paragraph__slider"></div>
         </div>
       </div>
-      <div class="slider__gradient"></div>
+      <div class="slider__gradient paragraph__gradient"></div>
     </div>
 
     <!-- Insight #1: Question -->
@@ -48,7 +48,7 @@
           <div class="slider__rectangle" id="question__slider"></div>
         </div>
       </div>
-      <div class="slider__gradient"></div>
+      <div class="slider__gradient question__gradient"></div>
     </div>
 
     <!-- Insight #2: Grade level -->
@@ -65,7 +65,7 @@
           <div class="slider__rectangle" id="grade__slider"></div>
         </div>
       </div>
-      <div class="slider__gradient"></div>
+      <div class="slider__gradient grade__gradient"></div>
     </div>
 
     <!-- Insight #3: Wording -->
@@ -74,15 +74,15 @@
         <h2 class="insight__title">Wording</h2>
         <div class="insight__metrics">
           <span class="material-icons insight__icon" id="check4">done</span>
-          <h3 class="insight__number">0</h3>
+          <h3 class="insight__number" id="words">0</h3>
         </div>
       </div>
       <div>
         <div class="insight__slider">
-          <div class="slider__rectangle" id="wording__slider"></div>
+          <div class="slider__rectangle" id="word__slider"></div>
         </div>
       </div>
-      <div class="slider__gradient"></div>
+      <div class="slider__gradient word__gradient"></div>
     </div>
   </div>
   <hr class="horizontal__rule">
@@ -117,10 +117,12 @@
     <div class="explanation__container" id="wording__explanation">
       <h2 class="insight__title">Wording</h2>
       <p>
-        Avoid adjectives, weak verbs, and ineffective nouns.
-        You'll save characters and make your message pop out.
+        Avoid adverbs, weak verbs, and ineffective nouns.
+        You'll save characters and allow your message to pop.
         Hint: use "call" instead of "meet" or "intro" instead of "introduction".
       </p>
+      <h4 class="insight__title red bold" id="adverbsHeader">Please remove adverbs:</h4>
+      <p class="red italic"id="flaggedAdverbs"></p>
     </div>
   </div>
 </body>

@@ -49,6 +49,11 @@ h3 {
     font-size: small;
     font-weight: 600;
 }
+/* Wording sub-heading style */
+h4 {
+    font-size: small;
+    font-weight: 600;
+}
 
 p {
     padding: .5rem;
@@ -116,7 +121,7 @@ p {
     border-left:solid lightgray
 }
 
-/* Slider box */
+/* Slider area (used as a blank div) */
 .insight__slider {
     display: flex;
     width: calc(100% - 3px);
@@ -127,20 +132,20 @@ p {
     height: 8px;
 }
 
-/* Slider indicator styles */
+/* Slider indicator */
 .slider__rectangle {
     display: flex;
     position: relative;
     z-index: 1;
     width: 3px;
-    /* margin-top: -8px; */
-    height: 8px;
+    margin-top: -1.5px;
+    margin-bottom: -1.5px;
     background: black;
-    border-width: 2px;
 
     transition: all 1s ease-out;
 }
 
+/* Slider color gradient structure */
 .slider__gradient {
     position: relative;
     cursor: pointer;
@@ -148,7 +153,20 @@ p {
     margin: 0;
     margin-top: -8px;
     height: 8px;
-    background:linear-gradient(90deg, rgba(244, 67, 54, 1) 0%, rgba(139, 192, 74, 1) 40%, rgba(139, 192, 74, 1) 60%, rgba(244, 67, 54, 1) 100%);
+}
+
+/* Slider color gradients */
+.paragraph__gradient {
+    background:linear-gradient(90deg, rgba(255, 0, 0, 1) 0%, rgba(255, 0, 0, 1) 20%, rgba(255, 231, 51, 1) 40%, rgba(76, 175, 80, 1) 60%, rgba(255, 231, 51, 1) 80%, rgba(255, 0, 0, 1) 100%);
+}
+.question__gradient {
+    background:linear-gradient(90deg, rgba(255, 0, 0, 1) 0%, rgba(255, 231, 51, 1) 12.5%, rgba(76, 175, 80, 1) 25%, rgba(76, 175, 80, 1) 50%, rgba(255, 231, 51, 1) 62.5%, rgba(255, 0, 0, 1) 80%, rgba(255, 0, 0, 1) 100%);
+}
+.grade__gradient {
+    background:linear-gradient(90deg, rgba(76, 175, 80, 1) 0%, rgba(76, 175, 80, 1) 25%, rgba(255, 231, 51, 1) 50%, rgba(255, 0, 0, 1) 75%, rgba(255, 0, 0, 1) 100%);
+}
+.word__gradient {
+    background:linear-gradient(90deg, rgba(76, 175, 80, 1) 0%, rgba(255, 231, 51, 1) 12.5%, rgba(255, 0, 0, 1) 24%, rgba(255, 0, 0, 1) 50%, rgba(255, 0, 0, 1) 80%, rgba(255, 0, 0, 1) 100%);
 }
 
 /* Horizontal rule separating insights from explanations */
@@ -158,9 +176,21 @@ p {
     height: 1px;
     width: 100%;
     background-color: lightgray;
-    
 }
 
+/* Adding margin above the explanation container */
 .explanation__container {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
+}
+/* Class for words that need to be removed as part of Wording Insight */
+.red {
+    color: red;
+}
+
+.bold {
+    font-weight: bolder;
+}
+
+.italic {
+    font-style: italic;
 }

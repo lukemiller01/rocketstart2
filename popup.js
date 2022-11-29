@@ -1,29 +1,7 @@
 // Update the relevant fields with the new data.
 const setInfo = info => {
-  
-  // 1) Update the paragraphs text
-  document.getElementById('paragraphs').textContent = info.paragraphs;
-  // 2) Update the paragraphs slider.
-  if (info.paragraphs > 5) {
-    info.paragraphs = 5
-  }
-  document.getElementById('paragraph__slider').style.left = (info.paragraphs)*20 + "%";
-
-  // 1) Update the questions text
-  document.getElementById('questions').textContent = info.questions;
-  // 2) Update the questions slider.
-  if (info.questions > 4) {
-    info.questions = 4
-  }
-  document.getElementById('question__slider').style.left = (info.questions)*25 + "%";
-
-  // 1) Update the Grade Level text
-  document.getElementById('grade').textContent = info.grade;
-  // 2) Update the Grade Level Slider.
-  // TODO: Refresh grade slider to go below 5
-  document.getElementById('grade__slider').style.left = (info.grade)*10-20 + "%";
-
   // Logic for displaying checks
+  // Needs to be above the slider updating code
   if(info.paragraphs !== 3) {
     var check1 = document.getElementById('check1').style.display = "none";
   }
@@ -42,6 +20,55 @@ const setInfo = info => {
   else {
     var check3 = document.getElementById('check3').style.display = "none";
   }
+  if(info.paragraphs == 0) { // No text
+    var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
+    var check4 = document.getElementById('check4').style.display = "none";
+  }
+  else if (info.words.length > 0){ // Text & there's a flagged word
+    var adverbsHeader = document.getElementById("adverbsHeader").style.display = "block";
+    var check4 = document.getElementById('check4').style.display = "none";
+    // TODO: Add an "X" in place of check?
+  }
+  else { // Text & there's no flagged word
+    var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
+    var check4 = document.getElementById('check4').style.display = "flex";
+  }
+  
+  // 1) Update the paragraphs text
+  document.getElementById('paragraphs').textContent = info.paragraphs;
+  // 2) Update the paragraphs slider.
+  if (info.paragraphs > 5) {
+    info.paragraphs = 5;
+  }
+  document.getElementById('paragraph__slider').style.left = (info.paragraphs)*20 + "%";
+
+  // 1) Update the questions text
+  document.getElementById('questions').textContent = info.questions;
+  // 2) Update the questions slider.
+  if (info.questions > 4) {
+    info.questions = 4;
+  }
+  document.getElementById('question__slider').style.left = (info.questions)*25 + "%";
+
+  // 1) Update the Grade Level text
+  document.getElementById('grade').textContent = info.grade;
+  // 2) Update the Grade Level Slider.
+  // TODO: Refresh grade algorithm to go below 5
+  if (info.grade < 2) {
+    info.grade = 2;
+  }
+  document.getElementById('grade__slider').style.left = (info.grade)*10-20 + "%";
+
+  // 1) Update the Wording text
+  document.getElementById('words').textContent = info.words.length;
+  // 2) Update the wording slider.
+  if (info.words.length > 4) {
+    info.words.length = 4;
+  }
+  document.getElementById('word__slider').style.left = (info.words.length)*25 + "%";
+  // 3) Update words list
+  document.getElementById('flaggedAdverbs').textContent = info.words.join(', ')
+
 };
 
 // Listen for messages from the contentScript.
@@ -51,9 +78,9 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
       var updatedInfo = {
         paragraphs: msg.paragraphs,
         questions: msg.questions,
-        grade: msg.grade
+        grade: msg.grade,
+        words: msg.words
       };
-  
       setInfo(updatedInfo);
     }
 });
@@ -78,6 +105,8 @@ var explanation1 = document.getElementById("paragraph__explanation").style.displ
 var explanation2 = document.getElementById("question__explanation").style.display = "none";
 var explanation3 = document.getElementById("grade__explanation").style.display = "none";
 var explanation4 = document.getElementById("wording__explanation").style.display = "none";
+// By default, remove Adverb header:
+var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
 
 // Listen for messages to change the explanation section
 // Paragraph explanation
