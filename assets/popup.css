@@ -1,3 +1,7 @@
+body {
+    background-color: #f3f2ef;
+}
+
 /* For entire window */
 .container {
     display: flex;
@@ -26,28 +30,29 @@
 }
 
 /* Removes default styles from headers */
-h1,h2,h3,h4,h5,h6 {
+h1,h2,h3,h4,h5,h6,p {
+    font-family: 'Open Sans', sans-serif;
     margin:0;
     padding:0;
  }
 
 /* Header text */
 h1 {
-    font-size: medium;
+    font-size: 18px;
     font-weight: 800;
 }
 
 /* Insight title style */
 h2 {
-    font-size: small;
+    font-size: 14px;
     font-weight: 600;
 }
 
 /* Insight number style */
 h3 {
     margin: 0;
-    font-size: small;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
 }
 /* Wording sub-heading style */
 h4 {
@@ -56,10 +61,12 @@ h4 {
 }
 
 p {
-    padding: .5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-bottom: .5rem;
     margin: 0rem;
-    font-size: small;
-    line-height: 150%;
+    font-size: 12px;
+    line-height: 175%;
     font-weight: 300;
 }
 
@@ -81,14 +88,20 @@ p {
     justify-content: space-between;
     flex-direction: column;
 
+    background-color: white;
     border-style: solid;
     border-color: lightgray;
 
     margin-bottom: 1.5rem;
-
-    box-shadow: 5px 5px 10px gray;
+    transition: all .25s ease-out;
 
     cursor: pointer;
+}
+
+/* If the item is being hovered over, or is clicked, scale */
+.insight__container:hover, .active {
+    transform: scale(1.05);
+    box-shadow: 5px 5px 10px gray;
 }
 
 /* Individual insight title structure */
@@ -175,12 +188,17 @@ p {
     border-width: 0;
     height: 1px;
     width: 100%;
-    background-color: lightgray;
+    background-color: gray;
+    margin: 0;
 }
 
 /* Adding margin above the explanation container */
 .explanation__container {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+
+    background-color: white;
+    border-style: solid;
+    border-color: lightgray;
 }
 /* Class for words that need to be removed as part of Wording Insight */
 .red {

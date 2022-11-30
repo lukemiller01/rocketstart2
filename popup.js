@@ -27,7 +27,7 @@ const setInfo = info => {
   else if (info.words.length > 0){ // Text & there's a flagged word
     var adverbsHeader = document.getElementById("adverbsHeader").style.display = "block";
     var check4 = document.getElementById('check4').style.display = "none";
-    // TODO: Add an "X" in place of check?
+    // TODO: Add an orange "caution" in place of check
   }
   else { // Text & there's no flagged word
     var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
@@ -83,6 +83,20 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
       };
       setInfo(updatedInfo);
     }
+
+    else if ((msg.from === 'contentScript') && (msg.subject === "Scale")) {
+      if(!document.getElementById("paragraph__container").classList.contains("active")) {
+        document.getElementById("paragraph__container").classList.add("active");
+      }
+      document.getElementById("question__container").classList.remove("active");
+      document.getElementById("grade__container").classList.remove("active");
+      document.getElementById("wording__container").classList.remove("active");
+
+      var explanation1 = document.getElementById("paragraph__explanation").style.display = "block";
+      var explanation2 = document.getElementById("question__explanation").style.display = "none";
+      var explanation3 = document.getElementById("grade__explanation").style.display = "none";
+      var explanation4 = document.getElementById("wording__explanation").style.display = "none";
+    }
 });
 
 // Listen for messages to close the iframe from popup.js
@@ -93,6 +107,11 @@ document.getElementById('exit').addEventListener('click',function(){
       subject: 'closeFrame',
     }, {frameId: 0});
   });
+  // Reset scale
+  document.getElementById("paragraph__container").classList.remove("active");
+  document.getElementById("question__container").classList.remove("active");
+  document.getElementById("grade__container").classList.remove("active");
+  document.getElementById("wording__container").classList.remove("active");
 });
 
 // By default, hide all check values.
@@ -105,7 +124,12 @@ var explanation1 = document.getElementById("paragraph__explanation").style.displ
 var explanation2 = document.getElementById("question__explanation").style.display = "none";
 var explanation3 = document.getElementById("grade__explanation").style.display = "none";
 var explanation4 = document.getElementById("wording__explanation").style.display = "none";
-// By default, remove Adverb header:
+// By default, add scale to the Paragraph Insight.
+document.getElementById("paragraph__container").classList.add("active");
+document.getElementById("question__container").classList.remove("active");
+document.getElementById("grade__container").classList.remove("active");
+document.getElementById("wording__container").classList.remove("active");
+// By default, remove Adverb header.
 var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
 
 // Listen for messages to change the explanation section
@@ -115,6 +139,11 @@ document.getElementById("paragraph__container").addEventListener('click', functi
   document.getElementById("grade__explanation").style.display = "none";
   document.getElementById("wording__explanation").style.display = "none";
   document.getElementById("paragraph__explanation").style.display = "block";
+  // Scale
+  document.getElementById("paragraph__container").classList.add("active");
+  document.getElementById("question__container").classList.remove("active");
+  document.getElementById("grade__container").classList.remove("active");
+  document.getElementById("wording__container").classList.remove("active");
 });
 // Question explanation
 document.getElementById("question__container").addEventListener('click', function(){
@@ -122,6 +151,11 @@ document.getElementById("question__container").addEventListener('click', functio
   document.getElementById("wording__explanation").style.display = "none";
   document.getElementById("paragraph__explanation").style.display = "none";
   document.getElementById("question__explanation").style.display = "block";
+  // Scale
+  document.getElementById("paragraph__container").classList.remove("active");
+  document.getElementById("question__container").classList.add("active");
+  document.getElementById("grade__container").classList.remove("active");
+  document.getElementById("wording__container").classList.remove("active");
 });
 // Grade explanation
 document.getElementById("grade__container").addEventListener('click', function(){
@@ -129,6 +163,11 @@ document.getElementById("grade__container").addEventListener('click', function()
   document.getElementById("question__explanation").style.display = "none";
   document.getElementById("wording__explanation").style.display = "none";
   document.getElementById("grade__explanation").style.display = "block";
+  // Scale
+  document.getElementById("paragraph__container").classList.remove("active");
+  document.getElementById("question__container").classList.remove("active");
+  document.getElementById("grade__container").classList.add("active");
+  document.getElementById("wording__container").classList.remove("active");
 });
 // Wording explanation
 document.getElementById("wording__container").addEventListener('click', function(){
@@ -136,4 +175,9 @@ document.getElementById("wording__container").addEventListener('click', function
   document.getElementById("paragraph__explanation").style.display = "none";
   document.getElementById("question__explanation").style.display = "none";
   document.getElementById("wording__explanation").style.display = "block";
+  // Scale
+  document.getElementById("paragraph__container").classList.remove("active");
+  document.getElementById("question__container").classList.remove("active");
+  document.getElementById("grade__container").classList.remove("active");
+  document.getElementById("wording__container").classList.add("active");
 });
