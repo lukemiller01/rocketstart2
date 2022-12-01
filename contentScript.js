@@ -300,6 +300,7 @@ function appendButton(textElement) {
 }
 
 function createFrame() {
+    toggle = false;
     iframe.style.background = "white";
     iframe.style.height = "100%";
     iframe.style.width = "0px";
@@ -320,21 +321,29 @@ createFrame();
 
 function toggleWindow(){
     if(iframe.style.width == "0px"){
+        toggle = true;
         iframe.style.width="300px";
         // Main content:
-        document.body.style.width = window.innerWidth - 300 + "px";
+        document.getElementsByClassName("scaffold-layout__inner")[0].style.margin = "0";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - 300 + "px";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.paddingLeft = "1rem";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.paddingRight = "1rem";
         // Message box:
-        document.getElementById("msg-overlay").style.right = 306 + "px";
+        document.getElementById("msg-overlay").style.right = 310 + "px";
         // Navbar:
+        document.getElementsByClassName("global-nav__content")[0].style.width = "inherit";
         document.getElementById("global-nav").style.display = "flex";
-        document.getElementById("global-nav").style.justifyContent = "start";
+        document.getElementById("global-nav").style.paddingLeft = "1rem";
+        document.getElementById("global-nav").style.paddingRight = "1rem";
         document.getElementById("global-nav").style.width = window.innerWidth - 300 + "px";
         // Sticky header:
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.marginLeft = 40 + "px";
-        document.getElementsByClassName("pv-profile-sticky-header-v2__actions-container")[0].style.marginRight = 45 + "px";
-        document.getElementsByClassName("pv-profile-sticky-header-v2__actions-container")[0].style.marginLeft = 0;
-        document.getElementsByClassName("pv1")[0].style.width = window.innerWidth - 300 + "px";
-        document.getElementsByClassName("pv1")[0].style.justifyContent = "space-between";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.margin = "0";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - 300 + "px";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingLeft = "7px";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingRight = "1rem";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.maxWidth = "none";
+        document.getElementsByClassName("pvs-profile-actions--rtl")[0].classList.remove("mr2");
+        document.getElementsByClassName("pv-profile-sticky-header-v2__mini-profile-container")[0].style.minWidth = "unset";
         // Paragraph scale, reset other insights
         chrome.runtime.sendMessage({
             from: 'contentScript',
@@ -342,16 +351,29 @@ function toggleWindow(){
         });
     }
     else{
+        toggle = false;
         iframe.style.width = "0px";
-        // Main content
-        document.body.style.width = 100 + "%";
+        // Main content:
+        document.getElementsByClassName("scaffold-layout__inner")[0].style.margin = "";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.width = "";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.paddingLeft = "";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.paddingRight = "";
         // Message box:
         document.getElementById("msg-overlay").style.right = 0 + "px";
-        // Navbar
+        // Navbar:
+        document.getElementsByClassName("global-nav__content")[0].style.width = "";
         document.getElementById("global-nav").style.display = "";
-        document.getElementById("global-nav").style.justifyContent = "";
+        document.getElementById("global-nav").style.paddingLeft = "";
+        document.getElementById("global-nav").style.paddingRight = "";
         document.getElementById("global-nav").style.width = "";
         // Sticky header:
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.margin = "";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = "";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingLeft = "";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingRight = "";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.maxWidth = "";
+        document.getElementsByClassName("pvs-profile-actions--rtl")[0].classList.add("mr2");
+        document.getElementsByClassName("pv-profile-sticky-header-v2__mini-profile-container")[0].style.minWidth = "";
     }
 }
 
@@ -369,5 +391,19 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     // First, validate the message's structure.
     if ((msg.from === 'popup') && (msg.subject === 'closeFrame')) {
         toggleWindow();
+    }
+});
+
+// Listen for changes in the window width
+window.addEventListener("resize", function(event) {
+    if(toggle) {
+        // Main content:
+        document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - 300 + "px";
+        // Message box:
+        document.getElementById("msg-overlay").style.right = 310 + "px";
+        // Navbar:
+        document.getElementById("global-nav").style.width = window.innerWidth - 300 + "px";
+        // Sticky header:
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - 300 + "px";
     }
 });
