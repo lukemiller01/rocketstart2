@@ -93,13 +93,13 @@ p {
     border-color: lightgray;
 
     margin-bottom: 1.5rem;
-    transition: all .25s ease-out;
+    transition: all .33s ease-out;
 
     cursor: pointer;
 }
 
 /* If the item is being hovered over, or is clicked, scale */
-.insight__container:hover, .active {
+.insight__container:hover, .active__rs {
     transform: scale(1.05);
     box-shadow: 5px 5px 10px gray;
 }
@@ -137,7 +137,7 @@ p {
 /* Slider area (used as a blank div) */
 .insight__slider {
     display: flex;
-    width: calc(100% - 3px);
+    width: calc(100% - 5px);
     position: relative;
     cursor: pointer;
     padding: 0;
@@ -145,14 +145,14 @@ p {
     height: 8px;
 }
 
-/* Slider indicator */
+/* Slider indicator rectangle */
 .slider__rectangle {
     display: flex;
     position: relative;
     z-index: 1;
-    width: 3px;
-    margin-top: -1.5px;
-    margin-bottom: -1.5px;
+    width: 5px;
+    margin-top: -3px;
+    /* margin-bottom: -1.5px; */
     background: black;
 
     transition: all 1s ease-out;
@@ -200,6 +200,13 @@ p {
     border-style: solid;
     border-color: lightgray;
 }
+
+.learn__more {
+    cursor: pointer;
+    font-weight: 500;
+    text-align: center;
+}
+
 /* Class for words that need to be removed as part of Wording Insight */
 .red {
     color: red;

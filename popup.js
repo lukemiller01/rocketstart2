@@ -85,12 +85,12 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     }
 
     else if ((msg.from === 'contentScript') && (msg.subject === "Scale")) {
-      if(!document.getElementById("paragraph__container").classList.contains("active")) {
-        document.getElementById("paragraph__container").classList.add("active");
+      if(!document.getElementById("paragraph__container").classList.contains("active__rs")) {
+        document.getElementById("paragraph__container").classList.add("active__rs");
       }
-      document.getElementById("question__container").classList.remove("active");
-      document.getElementById("grade__container").classList.remove("active");
-      document.getElementById("wording__container").classList.remove("active");
+      document.getElementById("question__container").classList.remove("active__rs");
+      document.getElementById("grade__container").classList.remove("active__rs");
+      document.getElementById("wording__container").classList.remove("active__rs");
 
       var explanation1 = document.getElementById("paragraph__explanation").style.display = "block";
       var explanation2 = document.getElementById("question__explanation").style.display = "none";
@@ -108,10 +108,10 @@ document.getElementById('exit').addEventListener('click',function(){
     }, {frameId: 0});
   });
   // Reset scale
-  document.getElementById("paragraph__container").classList.remove("active");
-  document.getElementById("question__container").classList.remove("active");
-  document.getElementById("grade__container").classList.remove("active");
-  document.getElementById("wording__container").classList.remove("active");
+  document.getElementById("paragraph__container").classList.remove("active__rs");
+  document.getElementById("question__container").classList.remove("active__rs");
+  document.getElementById("grade__container").classList.remove("active__rs");
+  document.getElementById("wording__container").classList.remove("active__rs");
 });
 
 // By default, hide all check values.
@@ -125,10 +125,10 @@ var explanation2 = document.getElementById("question__explanation").style.displa
 var explanation3 = document.getElementById("grade__explanation").style.display = "none";
 var explanation4 = document.getElementById("wording__explanation").style.display = "none";
 // By default, add scale to the Paragraph Insight.
-document.getElementById("paragraph__container").classList.add("active");
-document.getElementById("question__container").classList.remove("active");
-document.getElementById("grade__container").classList.remove("active");
-document.getElementById("wording__container").classList.remove("active");
+document.getElementById("paragraph__container").classList.add("active__rs");
+document.getElementById("question__container").classList.remove("active__rs");
+document.getElementById("grade__container").classList.remove("active__rs");
+document.getElementById("wording__container").classList.remove("active__rs");
 // By default, remove Adverb header.
 var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
 
@@ -140,10 +140,10 @@ document.getElementById("paragraph__container").addEventListener('click', functi
   document.getElementById("wording__explanation").style.display = "none";
   document.getElementById("paragraph__explanation").style.display = "block";
   // Scale
-  document.getElementById("paragraph__container").classList.add("active");
-  document.getElementById("question__container").classList.remove("active");
-  document.getElementById("grade__container").classList.remove("active");
-  document.getElementById("wording__container").classList.remove("active");
+  document.getElementById("paragraph__container").classList.add("active__rs");
+  document.getElementById("question__container").classList.remove("active__rs");
+  document.getElementById("grade__container").classList.remove("active__rs");
+  document.getElementById("wording__container").classList.remove("active__rs");
 });
 // Question explanation
 document.getElementById("question__container").addEventListener('click', function(){
@@ -152,10 +152,10 @@ document.getElementById("question__container").addEventListener('click', functio
   document.getElementById("paragraph__explanation").style.display = "none";
   document.getElementById("question__explanation").style.display = "block";
   // Scale
-  document.getElementById("paragraph__container").classList.remove("active");
-  document.getElementById("question__container").classList.add("active");
-  document.getElementById("grade__container").classList.remove("active");
-  document.getElementById("wording__container").classList.remove("active");
+  document.getElementById("paragraph__container").classList.remove("active__rs");
+  document.getElementById("question__container").classList.add("active__rs");
+  document.getElementById("grade__container").classList.remove("active__rs");
+  document.getElementById("wording__container").classList.remove("active__rs");
 });
 // Grade explanation
 document.getElementById("grade__container").addEventListener('click', function(){
@@ -164,10 +164,10 @@ document.getElementById("grade__container").addEventListener('click', function()
   document.getElementById("wording__explanation").style.display = "none";
   document.getElementById("grade__explanation").style.display = "block";
   // Scale
-  document.getElementById("paragraph__container").classList.remove("active");
-  document.getElementById("question__container").classList.remove("active");
-  document.getElementById("grade__container").classList.add("active");
-  document.getElementById("wording__container").classList.remove("active");
+  document.getElementById("paragraph__container").classList.remove("active__rs");
+  document.getElementById("question__container").classList.remove("active__rs");
+  document.getElementById("grade__container").classList.add("active__rs");
+  document.getElementById("wording__container").classList.remove("active__rs");
 });
 // Wording explanation
 document.getElementById("wording__container").addEventListener('click', function(){
@@ -176,8 +176,8 @@ document.getElementById("wording__container").addEventListener('click', function
   document.getElementById("question__explanation").style.display = "none";
   document.getElementById("wording__explanation").style.display = "block";
   // Scale
-  document.getElementById("paragraph__container").classList.remove("active");
-  document.getElementById("question__container").classList.remove("active");
-  document.getElementById("grade__container").classList.remove("active");
-  document.getElementById("wording__container").classList.add("active");
+  document.getElementById("paragraph__container").classList.remove("active__rs");
+  document.getElementById("question__container").classList.remove("active__rs");
+  document.getElementById("grade__container").classList.remove("active__rs");
+  document.getElementById("wording__container").classList.add("active__rs");
 });

@@ -304,17 +304,12 @@ function createFrame() {
     iframe.style.height = "100%";
     iframe.style.width = "0px";
     iframe.style.position = "fixed";
-    iframe.style.top = "0px";
+    iframe.style.bottom = "0px";
     iframe.style.right = "0px";
+    iframe.style.borderLeft = "1px solid rgba(0,0,0,.15)";
     iframe.style.zIndex = "9000000000000000000";
-    iframe.style.border = "0px"; 
     iframe.src = chrome.runtime.getURL("popup.html")
     document.body.appendChild(iframe);
-
-    // var exit = iframe.contentDocument.getElementById("exit");
-    // exit.onclick = function() {
-    //     toggleWindow();
-    // };
 }
 
 /*
@@ -326,6 +321,21 @@ createFrame();
 function toggleWindow(){
     if(iframe.style.width == "0px"){
         iframe.style.width="300px";
+        // Main content:
+        document.body.style.width = window.innerWidth - 300 + "px";
+        // Message box:
+        document.getElementById("msg-overlay").style.right = 306 + "px";
+        // Navbar:
+        document.getElementById("global-nav").style.display = "flex";
+        document.getElementById("global-nav").style.justifyContent = "start";
+        document.getElementById("global-nav").style.width = window.innerWidth - 300 + "px";
+        // Sticky header:
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.marginLeft = 40 + "px";
+        document.getElementsByClassName("pv-profile-sticky-header-v2__actions-container")[0].style.marginRight = 45 + "px";
+        document.getElementsByClassName("pv-profile-sticky-header-v2__actions-container")[0].style.marginLeft = 0;
+        document.getElementsByClassName("pv1")[0].style.width = window.innerWidth - 300 + "px";
+        document.getElementsByClassName("pv1")[0].style.justifyContent = "space-between";
+        // Paragraph scale, reset other insights
         chrome.runtime.sendMessage({
             from: 'contentScript',
             subject: 'Scale'
@@ -333,6 +343,15 @@ function toggleWindow(){
     }
     else{
         iframe.style.width = "0px";
+        // Main content
+        document.body.style.width = 100 + "%";
+        // Message box:
+        document.getElementById("msg-overlay").style.right = 0 + "px";
+        // Navbar
+        document.getElementById("global-nav").style.display = "";
+        document.getElementById("global-nav").style.justifyContent = "";
+        document.getElementById("global-nav").style.width = "";
+        // Sticky header:
     }
 }
 
