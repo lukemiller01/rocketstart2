@@ -220,3 +220,152 @@ p {
 .italic {
     font-style: italic;
 }
+
+/* For 4k devices */
+@media screen and (max-width: 900px) {
+    h1 {
+        font-size: 36px;
+    }
+    .title-block {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    h2 {
+        font-size: 22px;
+    }
+    h3 {
+        font-size: 22px;
+    }
+    .insight__container {
+        margin-bottom: 2.5rem;
+    }
+    .explanation__container {
+        margin-bottom: 2.5rem;
+    }
+    p {
+        font-size: 20px;
+    }
+    .material-icons {
+        font-size: 36px;
+    }
+}
+
+/* For 4k devices */
+@media screen and (max-width: 750px) {
+    h1 {
+        font-size: 28px;
+    }
+    .title-block {
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    h2 {
+        font-size: 20px;
+    }
+    h3 {
+        font-size: 20px;
+    }
+    .insight__container {
+        margin-bottom: 2rem;
+    }
+    .explanation__container {
+        margin-bottom: 2rem;
+    }
+    p {
+        font-size: 18px;
+    }
+    .material-icons {
+        font-size: 36px;
+    }
+}
+
+/* For larger desktops and laptops */
+@media screen and (max-width: 600px) {
+    h1 {
+        font-size: 18px;
+    }
+    .title-block {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    h2 {
+        font-size: 14px;
+    }
+    h3 {
+        font-size: 14px;
+    }
+    .insight__container {
+        margin-bottom: 1.5rem;
+    }
+    .explanation__container {
+        margin-bottom: 1.5rem;
+    }
+    p {
+        font-size: 12px;
+    }
+    .material-icons {
+        font-size: 24px;
+    }
+}
+
+/* For larger desktops and laptops */
+@media screen and (max-width: 450px) {
+    h1 {
+        font-size: 16px;
+    }
+    .title-block {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    h2 {
+        font-size: 13px;
+    }
+    h3 {
+        font-size: 13px;
+    }
+    .insight__container {
+        margin-bottom: 1rem;
+    }
+    .explanation__container {
+        margin-bottom: 1rem;
+    }
+    p {
+        font-size: 11px;
+    }
+    .material-icons {
+        font-size: 36px;
+    }
+}
+
+/* For smaller desktops and laptops */
+@media screen and (max-width: 240px) {
+    h1 {
+        font-size: 14px;
+    }
+    .title-block {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    h2 {
+        font-size: 11px;
+    }
+    h3 {
+        font-size: 11px;
+    }
+    .insight__title {
+        padding: .5rem;
+        min-width: 50px;
+    }
+    .insight__number {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    p {
+        font-size: 11px;
+    }
+    .material-icons {
+        font-size: 36px;
+    }
+}

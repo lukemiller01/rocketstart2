@@ -267,7 +267,6 @@ function createDiv() {
     drag.style.width = "32px";
     drag.style.background = "white";
     drag.style.zIndex = "1000000000000";
-    drag.style.right = "300px";
     drag.style.top = "343px";
     drag.style.marginRight = "-16.5px";
     drag.style.border = "1px solid grey"
@@ -335,23 +334,24 @@ function toggleWindow(){
     if(iframe.style.width == "0px"){
         toggle = true;
         iframe.style.borderLeft = "1px solid rgba(0,0,0,.15)";
-        iframe.style.width="300px";
+        iframeWidth = window.innerWidth * .208333;
+        iframe.style.width = iframeWidth + "px";
         // Main content:
         document.getElementsByClassName("scaffold-layout__inner")[0].style.margin = "0";
-        document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - 300 + "px";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - iframeWidth + "px";
         document.getElementsByClassName("scaffold-layout__content")[0].style.paddingLeft = "2.4rem";
         document.getElementsByClassName("scaffold-layout__content")[0].style.paddingRight = "2.4rem";
         // Message box:
-        document.getElementById("msg-overlay").style.right = 324 + "px";
+        document.getElementById("msg-overlay").style.right = iframeWidth + 24 + "px";
         // Navbar:
         document.getElementsByClassName("global-nav__content")[0].style.width = "inherit";
         document.getElementById("global-nav").style.display = "flex";
         document.getElementById("global-nav").style.paddingLeft = "2.4rem";
         document.getElementById("global-nav").style.paddingRight = "2.4rem";
-        document.getElementById("global-nav").style.width = window.innerWidth - 300 + "px";
+        document.getElementById("global-nav").style.width = window.innerWidth - iframeWidth + "px";
         // Sticky header:
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.margin = "0";
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - 300 + "px";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - iframeWidth + "px";
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingLeft = "20px";
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingRight = "2.4rem";
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.maxWidth = "none";
@@ -365,23 +365,28 @@ function toggleWindow(){
 
         // Resize the iframe; listen for the drag component's mouse up/down
         var drag = document.getElementById("drag");
-        drag.style.right = "300px";
+        drag.style.right = iframeWidth + "px";
         drag.style.visibility = "visible";
         function onMouseMove(e){
             // Prevent the mouse from highlighting elements
             e.preventDefault();
             // Remove pointer events to speed up the iframe width resize
             iframe.style.pointerEvents = "none";
-            iframe.style.width = window.innerWidth - e.clientX + "px";
-            drag.style.right = window.innerWidth - e.clientX + "px";
+            // Set maximum and minimum extension widths
+            if ( window.innerWidth - e.clientX < window.innerWidth * .291666 && window.innerWidth - e.clientX > window.innerWidth * .173611 && window.innerWidth - e.clientX >= 200 ) {
+                iframe.style.width = window.innerWidth - e.clientX + "px";
+                iframeWidth = parseInt(iframe.style.width);
+                drag.style.right = window.innerWidth - e.clientX + "px";
+            }
+            console.log(iframe.style.width);
             // Main content:
-            document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
+            document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - iframeWidth + "px";
             // Message box:
-            document.getElementById("msg-overlay").style.right = parseInt(iframe.style.width) + 24 + "px";
+            document.getElementById("msg-overlay").style.right = iframeWidth + 24 + "px";
             // Navbar:
-            document.getElementById("global-nav").style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
+            document.getElementById("global-nav").style.width = window.innerWidth - iframeWidth + "px";
             // Sticky header:
-            document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
+            document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - iframeWidth + "px";
         }
 
         function onMouseDown(e){
@@ -452,13 +457,28 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
 // Listen for changes in the window width
 window.addEventListener("resize", function(event) {
     if(toggle) {
+        // Automatically set the maximum and minimum extension widths
+        if ( parseInt(iframe.style.width) > window.innerWidth * .291666) {
+            if(window.innerWidth * .291666 >= 200) { // Minimum width
+                iframe.style.width = window.innerWidth * .291666 + "px";
+                iframeWidth = parseInt(iframe.style.width);
+                drag.style.right = window.innerWidth * .291666 + "px";
+            }
+        }
+        else if (parseInt(iframe.style.width) < window.innerWidth * .173611) {
+            if(window.innerWidth * .291666 >= 200) { // Minimum width
+                iframe.style.width = window.innerWidth * .173611 + "px";
+                iframeWidth = parseInt(iframe.style.width);
+                drag.style.right = window.innerWidth * .173611 + "px";
+            }
+        }
         // Main content:
-        document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - iframeWidth + "px";
         // Message box:
-        document.getElementById("msg-overlay").style.right = parseInt(iframe.style.width) + 24 + "px";
+        document.getElementById("msg-overlay").style.right = iframeWidth + 24 + "px";
         // Navbar:
-        document.getElementById("global-nav").style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
+        document.getElementById("global-nav").style.width = window.innerWidth - iframeWidth + "px";
         // Sticky header:
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - iframeWidth + "px";
     }
 });
