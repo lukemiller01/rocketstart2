@@ -298,7 +298,7 @@ function appendButton(textElement) {
     // Appending button
     textElement.parentElement.insertBefore(btn, textElement.nextElementSibling);
 }
-
+// Create the two componnts needed to be appended to the body
 function createFrame() {
     toggle = false;
     iframe.style.background = "white";
@@ -307,21 +307,42 @@ function createFrame() {
     iframe.style.position = "fixed";
     iframe.style.bottom = "0px";
     iframe.style.right = "0px";
-    iframe.style.borderLeft = "1px solid rgba(0,0,0,.15)";
-    iframe.style.zIndex = "9000000000000000000";
-    iframe.src = chrome.runtime.getURL("popup.html")
+    iframe.style.zIndex = "10001";
+    iframe.src = chrome.runtime.getURL("popup.html");
+    iframe.id = "iframe-rs"
     document.body.appendChild(iframe);
 }
-
-/*
-iFrame added as a right side panel
-*/
+function createDiv() {
+    drag.style.position = "absolute";
+    drag.style.visibility = "hidden";
+    drag.style.height = "18px";
+    drag.style.width = "32px";
+    drag.style.background = "white";
+    drag.style.zIndex = "1000000000000";
+    drag.style.right = "300px";
+    drag.style.top = "343px";
+    drag.style.marginRight = "-16.5px";
+    drag.style.border = "1px solid grey"
+    drag.style.borderRadius = "10px"
+    drag.style.transform = 'translateY(50%)';
+    drag.id = "drag";
+    drag.innerHTML = `
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <div style="cursor: move; position: relative; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; transform: rotate(90deg);">
+        <span class="material-symbols-outlined">unfold_more</span>
+    </div>
+    `;
+    document.body.appendChild(drag);
+}
+var drag = document.createElement('div');
 var iframe = document.createElement('iframe');
 createFrame();
+createDiv();
 
 function toggleWindow(){
     if(iframe.style.width == "0px"){
         toggle = true;
+        iframe.style.borderLeft = "1px solid rgba(0,0,0,.15)";
         iframe.style.width="300px";
         // Main content:
         document.getElementsByClassName("scaffold-layout__inner")[0].style.margin = "0";
@@ -349,10 +370,38 @@ function toggleWindow(){
             from: 'contentScript',
             subject: 'Scale'
         });
+
+        // Resize the iframe; listen for the drag component's mouse up/down
+        var drag = document.getElementById("drag");
+        drag.style.visibility = "visible";
+        function onMouseMove(e){
+            e.preventDefault();
+            iframe.style.pointerEvents = "none";
+            iframe.style.width = window.innerWidth - e.clientX + "px";
+            drag.style.right = window.innerWidth - e.clientX + "px";
+            indicator = e.pageX;
+        }
+
+        function onMouseDown(e){
+            indicator = e.pageX;
+            document.addEventListener('mousemove',onMouseMove);
+        }
+
+        function onMouseUp(e){
+            iframe.style.pointerEvents = "";
+            document.removeEventListener('mousemove',onMouseMove);
+        }
+
+        drag.addEventListener('mousedown', onMouseDown);
+        drag.addEventListener('mouseup', onMouseUp);
+        document.addEventListener('mouseup', onMouseUp);
     }
     else{
         toggle = false;
+        iframe.style.borderLeft = "";
         iframe.style.width = "0px";
+        var drag = document.getElementById("drag");
+        drag.style.visibility = "hidden";
         // Main content:
         document.getElementsByClassName("scaffold-layout__inner")[0].style.margin = "";
         document.getElementsByClassName("scaffold-layout__content")[0].style.width = "";
@@ -386,7 +435,7 @@ listenActiveElement(function (element) {
     listenToTyping(element);
 });
 
-// Listen for messages from the popup.
+// Listen for the popup to request the frame to be closed
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
     // First, validate the message's structure.
     if ((msg.from === 'popup') && (msg.subject === 'closeFrame')) {

@@ -99,7 +99,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     }
 });
 
-// Listen for messages to close the iframe from popup.js
+// Send message to close the iframe to contentScript.js
 document.getElementById('exit').addEventListener('click',function(){
   chrome.tabs.getCurrent(tab => {
     chrome.tabs.sendMessage(tab.id, {

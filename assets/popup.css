@@ -201,6 +201,7 @@ p {
     border-color: lightgray;
 }
 
+/* Class for adding link to Rocketstart website */
 .learn__more {
     cursor: pointer;
     font-weight: 500;
