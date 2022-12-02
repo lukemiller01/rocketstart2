@@ -84,10 +84,11 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
       setInfo(updatedInfo);
     }
 
-    else if ((msg.from === 'contentScript') && (msg.subject === "Scale")) {
-      if(!document.getElementById("paragraph__container").classList.contains("active__rs")) {
-        document.getElementById("paragraph__container").classList.add("active__rs");
-      }
+    // Scale up and scale down is triggered by toggleWindow().
+    // The two below cases respond by defaulting the animation on toggle on/off.
+    else if ((msg.from === 'contentScript') && (msg.subject === "ScaleUp")) {
+
+      document.getElementById("paragraph__container").classList.add("active__rs");
       document.getElementById("question__container").classList.remove("active__rs");
       document.getElementById("grade__container").classList.remove("active__rs");
       document.getElementById("wording__container").classList.remove("active__rs");
@@ -96,6 +97,13 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
       var explanation2 = document.getElementById("question__explanation").style.display = "none";
       var explanation3 = document.getElementById("grade__explanation").style.display = "none";
       var explanation4 = document.getElementById("wording__explanation").style.display = "none";
+    }
+
+    else if ((msg.from === 'contentScript') && (msg.subject === "ScaleDown")) {
+      document.getElementById("paragraph__container").classList.remove("active__rs");
+      document.getElementById("question__container").classList.remove("active__rs");
+      document.getElementById("grade__container").classList.remove("active__rs");
+      document.getElementById("wording__container").classList.remove("active__rs");
     }
 });
 

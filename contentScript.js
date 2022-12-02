@@ -1,5 +1,4 @@
 adverbs = ["abnormally", "absentmindedly", "accidentally", "acidly", "actually", "adventurously", "afterwards", "almost", "always", "angrily", "annually", "anxiously", "arrogantly", "awkwardly", "badly", "bashfully", "beautifully", "bitterly", "bleakly", "blindly", "blissfully", "boastfully", "boldly", "bravely", "briefly", "brightly", "briskly", "broadly", "busily", "calmly", "carefully", "carelessly", "cautiously", "certainly", "cheerfully", "clearly", "cleverly", "closely", "coaxingly", "colorfully", "commonly", "continually", "coolly", "correctly", "courageously", "crossly", "cruelly", "curiously", "daily", "daintily", "dearly", "deceivingly", "delightfully", "deeply", "defiantly", "deliberately", "delightfully", "diligently", "dimly", "doubtfully", "dreamily", "easily", "elegantly", "energetically", "enormously", "enthusiastically", "equally", "especially", "even", "evenly", "eventually", "exactly", "excitedly", "extremely", "fairly", "faithfully", "famously", "far", "fast", "fatally", "ferociously", "fervently", "fiercely", "fondly", "foolishly", "fortunately", "frankly", "frantically", "freely", "frenetically", "frightfully", "fully", "furiously", "generally", "generously", "gently", "gladly", "gleefully", "gracefully", "gratefully", "greatly", "greedily", "happily", "hastily", "healthily", "heavily", "helpfully", "helplessly", "highly", "honestly", "hopelessly", "hourly", "hungrily", "immediately", "innocently", "inquisitively", "instantly", "intensely", "intently", "interestingly", "inwardly", "irritably", "jaggedly", "jealously", "joshingly", "joyfully", "joyously", "jovially", "jubilantly", "judgmentally", "justly", "keenly", "kiddingly", "kindheartedly", "kindly", "knavishly", "knottily", "knowingly", "knowledgeably", "kookily", "lazily", "less", "lightly", "likely", "limply", "lively", "loftily", "longingly", "loosely", "lovingly", "loudly", "loyally", "madly", "majestically", "meaningfully", "mechanically", "merrily", "miserably", "mockingly", "monthly", "mortally", "mostly", "mysteriously", "naturally", "nearly", "neatly", "needily", "nervously", "never", "nicely", "noisily", "not", "obediently", "obnoxiously", "oddly", "offensively", "officially", "often", "only", "openly", "optimistically", "overconfidently", "owlishly", "painfully", "partially", "patiently", "perfectly", "physically", "playfully", "politely", "poorly", "positively", "potentially", "powerfully", "promptly", "properly", "punctually", "quaintly", "quarrelsomely", "queasily", "queerly", "questionably", "questioningly", "quicker", "quickly", "quietly", "quirkily", "quizzically", "rapidly", "rarely", "readily", "really", "reassuringly", "recklessly", "regularly", "reluctantly", "repeatedly", "reproachfully", "restfully", "righteously", "rightfully", "rigidly", "roughly", "rudely", "sadly", "safely", "scarcely", "scarily", "searchingly", "sedately", "seemingly", "seldom", "selfishly", "separately", "seriously", "shakily", "sharply", "sheepishly", "shrilly", "shyly", "silently", "sleepily", "slowly", "smoothly", "softly", "solemnly", "solidly", "sometimes", "soon", "speedily", "stealthily", "sternly", "strictly", "successfully", "suddenly", "surprisingly", "suspiciously", "sweetly", "swiftly", "sympathetically", "tenderly", "tensely", "terribly", "thankfully", "thoroughly", "thoughtfully", "tightly", "tomorrow", "too", "tremendously", "triumphantly", "truly", "truthfully", "ultimately", "unabashedly", "unaccountably", "unbearably", "unethically", "unexpectedly", "unfortunately", "unimpressively", "unnaturally", "unnecessarily", "utterly", "upbeat", "upliftingly", "upright", "upside-down", "upward", "upwardly", "urgently", "usefully", "uselessly", "usually", "utterly", "vacantly", "vaguely", "vainly", "valiantly", "vastly", "verbally", "very", "viciously", "victoriously", "violently", "vivaciously", "voluntarily", "warmly", "weakly", "wearily", "well", "wetly", "wholly", "wildly", "willfully", "wisely", "woefully", "wonderfully", "worriedly", "wrongly", "yawningly", "yearly", "yearningly", "yesterday", "yieldingly", "youthfully", "zealously", "zestfully", "zestily"];
-/* Need to capture the element the user is currently focused on (a text box) */
 
 // Counts the number of syllables per word
 function syllable(word) {
@@ -100,9 +99,6 @@ function messageAnalysis(text) {
         }
     }
 
-    // Wording, alerting users of poor word choice
-
-
     var pack = {
         paragraphs: paragraphs,
         questions: questions,
@@ -112,9 +108,7 @@ function messageAnalysis(text) {
     return pack;
 }
 
-/* Step 3
-This function checks if the active element is the right input
-*/
+// This function checks if the active element is the targeted input
 const isTextAreaOrInput = (element) => {
     if (element.id == "custom-message") {
         return true
@@ -122,11 +116,10 @@ const isTextAreaOrInput = (element) => {
     return false;
 }
 
-/* Step 2
+/*
 The function checks for if the active element is an input
 The window's event listener catches changes to the active element
-The purpose of this function is to keep the lastActiveElement fresh
-For Step 4
+The purpose of this function is to keep the lastActiveElement fresh for listenToTyping
 */
 const listenActiveElement = function (callback) {
     let lastActiveElement = document.activeElement;
@@ -151,22 +144,19 @@ const listenActiveElement = function (callback) {
             }
         }
     };
-
     window.addEventListener("focus", detectFocus, true)
 };
 
 /* Step 4
-If the focus is editable,
-Listen for a "keydown" event
-When a key is pressed down, the user is "actively typing"
+If the focused element is editable: listen for a "keydown" event.
+When a key is pressed down, the user is "actively typing".
 
-Listen for a "keyup" event
-When a key is released, the text is saved and the timer is cleared
+Listen for a "keyup" event.
+When a key is released, the text is saved and the timer is cleared.
 So the timer for inactivity can begin again
 
-If the text isn't changed after a certain amount of time,
-The last input is collected
-And the user is treated as "Not typing"
+If typing inactivity persists, the last input is collected.
+The last input is sent to messageAnalysis.
 */
 const listenToTyping = (element) => {
     var timer; // Timer identifier
@@ -237,17 +227,15 @@ const listenToTyping = (element) => {
     });
 };
 
-/*
-Button added to the text box being focused in on
-The button is created, and an onclick made
-An event listener "focusin" is created
-When a text box is focused in,
-The button is appended to the text box
-*/
-var btn = createButton();
+// Create the three components needed for the extension
 
+/*
+Button added to the custom message text box.
+The button is created, and clicking it toggles the window.
+An event listener is created in listenActiveElement.
+When the custom message box is focused in, the button is appended.
+*/
 function createButton() {
-    var btn = document.createElement('button');
     btn.textContent = 'Rocketstart';
     btn.style.textAlign = "center"
     btn.style.padding = ".75rem"
@@ -259,16 +247,60 @@ function createButton() {
     };
     return btn;
 }
+function createFrame() {
+    toggle = false;
+    iframe.style.background = "white";
+    iframe.style.height = "100%";
+    iframe.style.width = "0px";
+    iframe.style.position = "fixed";
+    iframe.style.bottom = "0px";
+    iframe.style.right = "0px";
+    iframe.style.zIndex = "10001";
+    iframe.src = chrome.runtime.getURL("popup.html");
+    iframe.id = "iframe-rs"
+    document.body.appendChild(iframe);
+}
+function createDiv() {
+    drag.style.position = "fixed";
+    drag.style.visibility = "hidden";
+    drag.style.height = "18px";
+    drag.style.width = "32px";
+    drag.style.background = "white";
+    drag.style.zIndex = "1000000000000";
+    drag.style.right = "300px";
+    drag.style.top = "343px";
+    drag.style.marginRight = "-16.5px";
+    drag.style.border = "1px solid grey"
+    drag.style.borderRadius = "10px"
+    drag.style.transform = 'translateY(50%)';
+    drag.id = "drag";
+    drag.innerHTML = `
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+        </head>
+        <body>
+            <div style="cursor: move; position: relative; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
+                <i style="border: solid black; border-width: 0px 2px 2px 0px; display: inline-block; padding: 3px; margin-right: 1px; transform: rotate(135deg);"></i>
+                <i style="border: solid black; border-width: 0px 2px 2px 0px; display: inline-block; padding: 3px; margin-left: 1px; transform: rotate(-45deg);"></i>
+            </div>
+        </body>
+    </html>
+    `;
+    document.body.appendChild(drag);
+}
+var btn = document.createElement('button');
+var drag = document.createElement('div');
+var iframe = document.createElement('iframe');
+createButton();
+createDiv();
+createFrame();
 
 /*
-Update to appendButton:
-
-The button should contain the same styles as the LinkedIn UI
-    W.R.T both the text style and box style
-
+The button should contains the same styles as the LinkedIn UI.
 These styles aren't available when the button is created,
-So they're being implemented onto the button when the button is appended, or
-On the popup for the connection message draft.
+So they're being implemented onto the button when the button is appended.
 */
 function appendButton(textElement) {
     // Font styling
@@ -298,46 +330,6 @@ function appendButton(textElement) {
     // Appending button
     textElement.parentElement.insertBefore(btn, textElement.nextElementSibling);
 }
-// Create the two componnts needed to be appended to the body
-function createFrame() {
-    toggle = false;
-    iframe.style.background = "white";
-    iframe.style.height = "100%";
-    iframe.style.width = "0px";
-    iframe.style.position = "fixed";
-    iframe.style.bottom = "0px";
-    iframe.style.right = "0px";
-    iframe.style.zIndex = "10001";
-    iframe.src = chrome.runtime.getURL("popup.html");
-    iframe.id = "iframe-rs"
-    document.body.appendChild(iframe);
-}
-function createDiv() {
-    drag.style.position = "absolute";
-    drag.style.visibility = "hidden";
-    drag.style.height = "18px";
-    drag.style.width = "32px";
-    drag.style.background = "white";
-    drag.style.zIndex = "1000000000000";
-    drag.style.right = "300px";
-    drag.style.top = "343px";
-    drag.style.marginRight = "-16.5px";
-    drag.style.border = "1px solid grey"
-    drag.style.borderRadius = "10px"
-    drag.style.transform = 'translateY(50%)';
-    drag.id = "drag";
-    drag.innerHTML = `
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <div style="cursor: move; position: relative; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; transform: rotate(90deg);">
-        <span class="material-symbols-outlined">unfold_more</span>
-    </div>
-    `;
-    document.body.appendChild(drag);
-}
-var drag = document.createElement('div');
-var iframe = document.createElement('iframe');
-createFrame();
-createDiv();
 
 function toggleWindow(){
     if(iframe.style.width == "0px"){
@@ -347,43 +339,52 @@ function toggleWindow(){
         // Main content:
         document.getElementsByClassName("scaffold-layout__inner")[0].style.margin = "0";
         document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - 300 + "px";
-        document.getElementsByClassName("scaffold-layout__content")[0].style.paddingLeft = "1rem";
-        document.getElementsByClassName("scaffold-layout__content")[0].style.paddingRight = "1rem";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.paddingLeft = "2.4rem";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.paddingRight = "2.4rem";
         // Message box:
-        document.getElementById("msg-overlay").style.right = 310 + "px";
+        document.getElementById("msg-overlay").style.right = 324 + "px";
         // Navbar:
         document.getElementsByClassName("global-nav__content")[0].style.width = "inherit";
         document.getElementById("global-nav").style.display = "flex";
-        document.getElementById("global-nav").style.paddingLeft = "1rem";
-        document.getElementById("global-nav").style.paddingRight = "1rem";
+        document.getElementById("global-nav").style.paddingLeft = "2.4rem";
+        document.getElementById("global-nav").style.paddingRight = "2.4rem";
         document.getElementById("global-nav").style.width = window.innerWidth - 300 + "px";
         // Sticky header:
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.margin = "0";
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - 300 + "px";
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingLeft = "7px";
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingRight = "1rem";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingLeft = "20px";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingRight = "2.4rem";
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.maxWidth = "none";
         document.getElementsByClassName("pvs-profile-actions--rtl")[0].classList.remove("mr2");
         document.getElementsByClassName("pv-profile-sticky-header-v2__mini-profile-container")[0].style.minWidth = "unset";
         // Paragraph scale, reset other insights
         chrome.runtime.sendMessage({
             from: 'contentScript',
-            subject: 'Scale'
+            subject: 'ScaleUp'
         });
 
         // Resize the iframe; listen for the drag component's mouse up/down
         var drag = document.getElementById("drag");
+        drag.style.right = "300px";
         drag.style.visibility = "visible";
         function onMouseMove(e){
+            // Prevent the mouse from highlighting elements
             e.preventDefault();
+            // Remove pointer events to speed up the iframe width resize
             iframe.style.pointerEvents = "none";
             iframe.style.width = window.innerWidth - e.clientX + "px";
             drag.style.right = window.innerWidth - e.clientX + "px";
-            indicator = e.pageX;
+            // Main content:
+            document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
+            // Message box:
+            document.getElementById("msg-overlay").style.right = parseInt(iframe.style.width) + 24 + "px";
+            // Navbar:
+            document.getElementById("global-nav").style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
+            // Sticky header:
+            document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
         }
 
         function onMouseDown(e){
-            indicator = e.pageX;
             document.addEventListener('mousemove',onMouseMove);
         }
 
@@ -423,13 +424,18 @@ function toggleWindow(){
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.maxWidth = "";
         document.getElementsByClassName("pvs-profile-actions--rtl")[0].classList.add("mr2");
         document.getElementsByClassName("pv-profile-sticky-header-v2__mini-profile-container")[0].style.minWidth = "";
+
+        // Paragraph scale, reset other insights
+        chrome.runtime.sendMessage({
+            from: 'contentScript',
+            subject: 'ScaleDown'
+        });
     }
 }
 
-/* Step 1
+/*
 Upon a match occuring ("https://www.linkedin.com./in/*"),
-This script detects the focus of the cursor,
-And if any typing is occuring
+This script detects the focus of the cursor and if any typing is occuring.
 */
 listenActiveElement(function (element) {
     listenToTyping(element);
@@ -447,12 +453,12 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
 window.addEventListener("resize", function(event) {
     if(toggle) {
         // Main content:
-        document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - 300 + "px";
+        document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
         // Message box:
-        document.getElementById("msg-overlay").style.right = 310 + "px";
+        document.getElementById("msg-overlay").style.right = parseInt(iframe.style.width) + 24 + "px";
         // Navbar:
-        document.getElementById("global-nav").style.width = window.innerWidth - 300 + "px";
+        document.getElementById("global-nav").style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
         // Sticky header:
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - 300 + "px";
+        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - parseInt(iframe.style.width) + "px";
     }
 });
