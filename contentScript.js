@@ -29,7 +29,7 @@ function messageAnalysis(text) {
         paragraphs = 0;
     }
     
-    // Questions, where one question mark means one question
+    // Questions, where one or more question marks in a row means one question
     questions = text.split(/\?{1,}/).length - 1
 
     // Grade Level, characterized by Flesch-Kincaid
@@ -39,6 +39,15 @@ function messageAnalysis(text) {
 
     // # of sentences, includes periods, exclamation, questions
     numSentences = text.split('.').length + text.split(/\!{1,}/).length + questions - 2
+    // Edge case "Hi {name} - " returns grade level 12 because there are technically no sentences
+    if ( text.split(/-\n/).length - 1 || text.split(/ - \n/).length - 1) {
+        numSentences = numSentences + text.split(/-\n/).length - 1 + text.split(/ - \n/).length - 1;
+    }
+    // The readingLevel function will break if numSentences = 0.
+    if(numSentences == 0) {
+        numSentences = 1;
+    }
+    // console.log(numSentences);
 
     // # of syllables
     numSyllables = 0
@@ -94,8 +103,17 @@ function messageAnalysis(text) {
             case (readingLevel > 90 && readingLevel <= 100):
                 grade = 5;
                 break;
+            case (readingLevel > 100 && readingLevel <= 110):
+                grade = 4;
+                break;
+            case (readingLevel > 110 && readingLevel <= 120):
+                grade = 3;
+                break;
+            case (readingLevel > 120):
+                grade = 2;
+                break;
             default:
-                grade = 5
+                grade = 2
         }
     }
 
@@ -383,21 +401,17 @@ function toggleWindow(){
 
             // Changing icon based on user ability to drag extension left or right
             if (parseInt(iframe.style.width) + 5 >= window.innerWidth * .291666) {
-                document.getElementById("left-arrow").style.display = "none";
-                document.getElementById("right-arrow").style.marginLeft = "-2px";
+                document.getElementById("left-arrow").style.borderColor = "lightgray";
             }
             else { // If the bound hasn't been reached, the arrow should perist
                 document.getElementById("left-arrow").style.display = "inline-block";
-                document.getElementById("right-arrow").style.marginLeft = "1px";
                 document.getElementById("left-arrow").style.borderColor = "black";
             } // Repeat for right bound
             if (parseInt(iframe.style.width) - 5 <= window.innerWidth * .173611 || parseInt(iframe.style.width) - 5 <= 200) {
-                document.getElementById("right-arrow").style.display = "none";
-                document.getElementById("left-arrow").style.marginRight = "-2px";
+                document.getElementById("right-arrow").style.borderColor = "lightgray";
             }
             else {
                 document.getElementById("right-arrow").style.display = "inline-block";
-                document.getElementById("left-arrow").style.marginRight = "1px";
                 document.getElementById("right-arrow").style.borderColor = "black";
             }
             // If both arrows are hidden, there's a 200px edge case.
@@ -405,11 +419,8 @@ function toggleWindow(){
             if (document.getElementById("right-arrow").style.display == "none" && document.getElementById("left-arrow").style.display == "none") {
                 document.getElementById("left-arrow").style.display = "inline-block";
                 document.getElementById("left-arrow").style.borderColor = "lightgray";
-                document.getElementById("left-arrow").style.marginRight = "1px";
                 document.getElementById("right-arrow").style.display = "inline-block";
                 document.getElementById("right-arrow").style.borderColor = "lightgray";
-                document.getElementById("right-arrow").style.marginLeft = "1px";
-
             }
 
             // Main content:
@@ -519,21 +530,17 @@ window.addEventListener("resize", function(event) {
 
         // Changing icon based on user ability to drag extension left or right
         if (parseInt(iframe.style.width) + 5 >= window.innerWidth * .291666) {
-            document.getElementById("left-arrow").style.display = "none";
-            document.getElementById("right-arrow").style.marginLeft = "-2px";
+            document.getElementById("left-arrow").style.borderColor = "lightgray";
         }
         else { // If the bound hasn't been reached, the arrow should perist
             document.getElementById("left-arrow").style.display = "inline-block";
-            document.getElementById("right-arrow").style.marginLeft = "1px";
             document.getElementById("left-arrow").style.borderColor = "black";
         } // Repeat for right bound
         if (parseInt(iframe.style.width) - 5 <= window.innerWidth * .173611 || parseInt(iframe.style.width) - 5 <= 200) {
-            document.getElementById("right-arrow").style.display = "none";
-            document.getElementById("left-arrow").style.marginRight = "-2px";
+            document.getElementById("right-arrow").style.borderColor = "lightgray";
         }
         else {
             document.getElementById("right-arrow").style.display = "inline-block";
-            document.getElementById("left-arrow").style.marginRight = "1px";
             document.getElementById("right-arrow").style.borderColor = "black";
         }
         // If both arrows are hidden, there's a 200px edge case.
@@ -541,11 +548,8 @@ window.addEventListener("resize", function(event) {
         if (document.getElementById("right-arrow").style.display == "none" && document.getElementById("left-arrow").style.display == "none") {
             document.getElementById("left-arrow").style.display = "inline-block";
             document.getElementById("left-arrow").style.borderColor = "lightgray";
-            document.getElementById("left-arrow").style.marginRight = "1px";
             document.getElementById("right-arrow").style.display = "inline-block";
             document.getElementById("right-arrow").style.borderColor = "lightgray";
-            document.getElementById("right-arrow").style.marginLeft = "1px";
-
         }
     }
 });

@@ -23,15 +23,18 @@ const setInfo = info => {
   if(info.paragraphs == 0) { // No text
     var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
     var check4 = document.getElementById('check4').style.display = "none";
+    var warning1 = document.getElementById('warning').style.display = "none";
   }
   else if (info.words.length > 0){ // Text & there's a flagged word
     var adverbsHeader = document.getElementById("adverbsHeader").style.display = "block";
     var check4 = document.getElementById('check4').style.display = "none";
+    var warning1 = document.getElementById('warning').style.display = "block";
     // TODO: Add an orange "caution" in place of check
   }
   else { // Text & there's no flagged word
     var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
     var check4 = document.getElementById('check4').style.display = "flex";
+    var warning1 = document.getElementById('warning').style.display = "none";
   }
   
   // 1) Update the paragraphs text
@@ -53,7 +56,6 @@ const setInfo = info => {
   // 1) Update the Grade Level text
   document.getElementById('grade').textContent = info.grade;
   // 2) Update the Grade Level Slider.
-  // TODO: Refresh grade algorithm to go below 5
   if (info.grade < 2) {
     info.grade = 2;
   }
