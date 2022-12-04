@@ -267,7 +267,8 @@ function createDiv() {
     drag.style.width = "32px";
     drag.style.background = "white";
     drag.style.zIndex = "1000000000000";
-    drag.style.top = "343px";
+    // drag.style.top = "343px";
+    drag.style.top = window.innerHeight / 2 + "px";
     drag.style.marginRight = "-16.5px";
     drag.style.border = "1px solid grey"
     drag.style.borderRadius = "10px"
@@ -281,8 +282,8 @@ function createDiv() {
         </head>
         <body>
             <div style="cursor: move; position: relative; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;">
-                <i style="border: solid black; border-width: 0px 2px 2px 0px; display: inline-block; padding: 3px; margin-right: 1px; transform: rotate(135deg);"></i>
-                <i style="border: solid black; border-width: 0px 2px 2px 0px; display: inline-block; padding: 3px; margin-left: 1px; transform: rotate(-45deg);"></i>
+                <i id="left-arrow" style="border: solid black; border-width: 0px 2px 2px 0px; display: inline-block; padding: 3px; margin-right: 1px; transform: rotate(135deg);"></i>
+                <i id="right-arrow" style="border: solid black; border-width: 0px 2px 2px 0px; display: inline-block; padding: 3px; margin-left: 1px; transform: rotate(-45deg);"></i>
             </div>
         </body>
     </html>
@@ -372,13 +373,45 @@ function toggleWindow(){
             e.preventDefault();
             // Remove pointer events to speed up the iframe width resize
             iframe.style.pointerEvents = "none";
+            // If the 
             // Set maximum and minimum extension widths
-            if ( window.innerWidth - e.clientX < window.innerWidth * .291666 && window.innerWidth - e.clientX > window.innerWidth * .173611 && window.innerWidth - e.clientX >= 200 ) {
+            if ( window.innerWidth - e.clientX <= window.innerWidth * .291666 && window.innerWidth - e.clientX >= window.innerWidth * .173611 && window.innerWidth - e.clientX >= 200 ) {
                 iframe.style.width = window.innerWidth - e.clientX + "px";
                 iframeWidth = parseInt(iframe.style.width);
                 drag.style.right = window.innerWidth - e.clientX + "px";
             }
-            console.log(iframe.style.width);
+
+            // Changing icon based on user ability to drag extension left or right
+            if (parseInt(iframe.style.width) + 5 >= window.innerWidth * .291666) {
+                document.getElementById("left-arrow").style.display = "none";
+                document.getElementById("right-arrow").style.marginLeft = "-2px";
+            }
+            else { // If the bound hasn't been reached, the arrow should perist
+                document.getElementById("left-arrow").style.display = "inline-block";
+                document.getElementById("right-arrow").style.marginLeft = "1px";
+                document.getElementById("left-arrow").style.borderColor = "black";
+            } // Repeat for right bound
+            if (parseInt(iframe.style.width) - 5 <= window.innerWidth * .173611 || parseInt(iframe.style.width) - 5 <= 200) {
+                document.getElementById("right-arrow").style.display = "none";
+                document.getElementById("left-arrow").style.marginRight = "-2px";
+            }
+            else {
+                document.getElementById("right-arrow").style.display = "inline-block";
+                document.getElementById("left-arrow").style.marginRight = "1px";
+                document.getElementById("right-arrow").style.borderColor = "black";
+            }
+            // If both arrows are hidden, there's a 200px edge case.
+            // Instead of leaving the draggable element blank, make them grey
+            if (document.getElementById("right-arrow").style.display == "none" && document.getElementById("left-arrow").style.display == "none") {
+                document.getElementById("left-arrow").style.display = "inline-block";
+                document.getElementById("left-arrow").style.borderColor = "lightgray";
+                document.getElementById("left-arrow").style.marginRight = "1px";
+                document.getElementById("right-arrow").style.display = "inline-block";
+                document.getElementById("right-arrow").style.borderColor = "lightgray";
+                document.getElementById("right-arrow").style.marginLeft = "1px";
+
+            }
+
             // Main content:
             document.getElementsByClassName("scaffold-layout__content")[0].style.width = window.innerWidth - iframeWidth + "px";
             // Message box:
@@ -480,5 +513,39 @@ window.addEventListener("resize", function(event) {
         document.getElementById("global-nav").style.width = window.innerWidth - iframeWidth + "px";
         // Sticky header:
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - iframeWidth + "px";
+
+        // Move position of draggable slider on height change
+        drag.style.top = window.innerHeight / 2 + "px";
+
+        // Changing icon based on user ability to drag extension left or right
+        if (parseInt(iframe.style.width) + 5 >= window.innerWidth * .291666) {
+            document.getElementById("left-arrow").style.display = "none";
+            document.getElementById("right-arrow").style.marginLeft = "-2px";
+        }
+        else { // If the bound hasn't been reached, the arrow should perist
+            document.getElementById("left-arrow").style.display = "inline-block";
+            document.getElementById("right-arrow").style.marginLeft = "1px";
+            document.getElementById("left-arrow").style.borderColor = "black";
+        } // Repeat for right bound
+        if (parseInt(iframe.style.width) - 5 <= window.innerWidth * .173611 || parseInt(iframe.style.width) - 5 <= 200) {
+            document.getElementById("right-arrow").style.display = "none";
+            document.getElementById("left-arrow").style.marginRight = "-2px";
+        }
+        else {
+            document.getElementById("right-arrow").style.display = "inline-block";
+            document.getElementById("left-arrow").style.marginRight = "1px";
+            document.getElementById("right-arrow").style.borderColor = "black";
+        }
+        // If both arrows are hidden, there's a 200px edge case.
+        // Instead of leaving the draggable element blank, make them grey
+        if (document.getElementById("right-arrow").style.display == "none" && document.getElementById("left-arrow").style.display == "none") {
+            document.getElementById("left-arrow").style.display = "inline-block";
+            document.getElementById("left-arrow").style.borderColor = "lightgray";
+            document.getElementById("left-arrow").style.marginRight = "1px";
+            document.getElementById("right-arrow").style.display = "inline-block";
+            document.getElementById("right-arrow").style.borderColor = "lightgray";
+            document.getElementById("right-arrow").style.marginLeft = "1px";
+
+        }
     }
 });

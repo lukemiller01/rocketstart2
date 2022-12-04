@@ -107,7 +107,6 @@ p {
 /* Individual insight title structure */
 .insight__title {
     padding: .5rem;
-    min-width: 115px;
     max-width: 200px;
 }
 
@@ -240,7 +239,7 @@ p {
         margin-bottom: 2.5rem;
     }
     .explanation__container {
-        margin-bottom: 2.5rem;
+        margin-top: 2.5rem;
     }
     p {
         font-size: 20px;
@@ -269,7 +268,7 @@ p {
         margin-bottom: 2rem;
     }
     .explanation__container {
-        margin-bottom: 2rem;
+        margin-top: 2rem;
     }
     p {
         font-size: 18px;
@@ -298,7 +297,7 @@ p {
         margin-bottom: 1.5rem;
     }
     .explanation__container {
-        margin-bottom: 1.5rem;
+        margin-top: 1.5rem;
     }
     p {
         font-size: 12px;
@@ -324,10 +323,10 @@ p {
         font-size: 13px;
     }
     .insight__container {
-        margin-bottom: 1rem;
+        margin-bottom: 1.5rem;
     }
     .explanation__container {
-        margin-bottom: 1rem;
+        margin-top: 1.5rem;
     }
     p {
         font-size: 11px;
@@ -354,7 +353,6 @@ p {
     }
     .insight__title {
         padding: .5rem;
-        min-width: 50px;
     }
     .insight__number {
         padding-left: 0;
