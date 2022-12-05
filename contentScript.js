@@ -146,6 +146,15 @@ const listenActiveElement = function (callback) {
     const detectFocus = () => {
         if(lastActiveElement !== document.activeElement) {
             lastActiveElement = document.activeElement
+
+            // If the iframe is open, automatically change the position of the invitation window.
+                // This can't be completed in appendButton because there's an option to send a request w/o a note.
+            if(toggle && document.getElementsByClassName("artdeco-modal--layer-default")[0]) {
+                document.getElementsByClassName("artdeco-modal--layer-default")[0].style.position = "absolute";
+                newLeft = (window.innerWidth - iframeWidth - document.getElementsByClassName("artdeco-modal--layer-default")[0].offsetWidth) / 2;
+                document.getElementsByClassName("artdeco-modal--layer-default")[0].style.left = newLeft + "px";
+            }
+
             if(isTextAreaOrInput(lastActiveElement)) {
                 callback(lastActiveElement);
                 appendButton(lastActiveElement);
@@ -376,6 +385,12 @@ function toggleWindow(){
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.maxWidth = "none";
         document.getElementsByClassName("pvs-profile-actions--rtl")[0].classList.remove("mr2");
         document.getElementsByClassName("pv-profile-sticky-header-v2__mini-profile-container")[0].style.minWidth = "unset";
+
+        // Window toggle
+        document.getElementsByClassName("artdeco-modal--layer-default")[0].style.position = "absolute";
+        newLeft = (window.innerWidth - iframeWidth - document.getElementsByClassName("artdeco-modal--layer-default")[0].offsetWidth) / 2;
+        document.getElementsByClassName("artdeco-modal--layer-default")[0].style.left = newLeft + "px";
+
         // Paragraph scale, reset other insights
         chrome.runtime.sendMessage({
             from: 'contentScript',
@@ -431,6 +446,25 @@ function toggleWindow(){
             document.getElementById("global-nav").style.width = window.innerWidth - iframeWidth + "px";
             // Sticky header:
             document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = window.innerWidth - iframeWidth + "px";
+
+            // Moving the invitation window, if it exists.
+            if(document.getElementsByClassName("artdeco-modal--layer-default")[0]) {
+                document.getElementsByClassName("artdeco-modal--layer-default")[0].style.position = "absolute";
+                newLeft = (window.innerWidth - iframeWidth - document.getElementsByClassName("artdeco-modal--layer-default")[0].offsetWidth) / 2;
+                // if left edge reaches window limit, stop the window from moving
+                if (newLeft < 23.4) {
+                    newLeft = 23.4;
+                }
+                document.getElementsByClassName("artdeco-modal--layer-default")[0].style.left = newLeft + "px";
+
+                // If right edge reaches iframe limit, decrease size
+                if (document.getElementsByClassName("artdeco-modal--layer-default")[0].offsetWidth + 46.8 >= window.innerWidth - iframeWidth - 46.4 ) {
+                    document.getElementsByClassName("artdeco-modal--layer-default")[0].style.width = window.innerWidth - iframeWidth - 46.4 + "px";
+                }
+                else {
+                    document.getElementsByClassName("artdeco-modal--layer-default")[0].style.width = "";
+                }
+            }
         }
 
         function onMouseDown(e){
@@ -473,6 +507,10 @@ function toggleWindow(){
         document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.maxWidth = "";
         document.getElementsByClassName("pvs-profile-actions--rtl")[0].classList.add("mr2");
         document.getElementsByClassName("pv-profile-sticky-header-v2__mini-profile-container")[0].style.minWidth = "";
+
+        // Reset position of invitation window
+        document.getElementsByClassName("artdeco-modal--layer-default")[0].style.position = "";
+        document.getElementsByClassName("artdeco-modal--layer-default")[0].style.left = "";
 
         // Paragraph scale, reset other insights
         chrome.runtime.sendMessage({
@@ -550,6 +588,25 @@ window.addEventListener("resize", function(event) {
             document.getElementById("left-arrow").style.borderColor = "lightgray";
             document.getElementById("right-arrow").style.display = "inline-block";
             document.getElementById("right-arrow").style.borderColor = "lightgray";
+        }
+
+        // Moving the invitation window, if it exists.
+        if(document.getElementsByClassName("artdeco-modal--layer-default")[0]) {
+            document.getElementsByClassName("artdeco-modal--layer-default")[0].style.position = "absolute";
+            newLeft = (window.innerWidth - iframeWidth - document.getElementsByClassName("artdeco-modal--layer-default")[0].offsetWidth) / 2;
+            // if left edge reaches window limit, stop the window from moving
+            if (newLeft < 23.4) {
+                newLeft = 23.4;
+            }
+            document.getElementsByClassName("artdeco-modal--layer-default")[0].style.left = newLeft + "px";
+
+            // If right edge reaches iframe limit, decrease size
+            if (document.getElementsByClassName("artdeco-modal--layer-default")[0].offsetWidth + 46.8 >= window.innerWidth - iframeWidth - 46.4 ) {
+                document.getElementsByClassName("artdeco-modal--layer-default")[0].style.width = window.innerWidth - iframeWidth - 46.4 + "px";
+            }
+            else {
+                document.getElementsByClassName("artdeco-modal--layer-default")[0].style.width = "";
+            }
         }
     }
 });
