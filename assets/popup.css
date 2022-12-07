@@ -56,8 +56,10 @@ h3 {
 }
 /* Wording sub-heading style */
 h4 {
-    font-size: small;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 500;
+    padding-bottom: .5rem;
+    /* TODO: change to media queries after design is done */
 }
 
 p {
@@ -129,14 +131,6 @@ p {
     padding: 0rem .5rem;
 
     color: rgba(247, 152, 36, 1);
-}
-
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 48
 }
 
 /* Individual insight number structure */
@@ -214,6 +208,40 @@ p {
     background-color: white;
     border-style: solid;
     border-color: lightgray;
+}
+
+/* TODO: need to find a solution to handle multiple flagged verbs */
+/* Contains both + and - verb examples */
+.verb__example {
+    padding: .5rem;
+}
+
+.bad__example {
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+    text-align: center;
+    padding-bottom: .5rem;
+    /* TODO: change to media queries after design is done */
+}
+
+.good__example {
+    align-items: center;
+    flex-direction: row;
+    display: flex;
+    text-align: center;
+    padding-bottom: .5rem;
+    /* TODO: change to media queries after design is done */
+}
+
+.explanation__cross {
+    color: rgba(163, 0, 0, 1);
+    font-size: 20px;
+}
+
+.explanation__check {
+    color: rgba(139, 192, 74, 1);
+    font-size: 20px;
 }
 
 /* Class for adding link to Rocketstart website */

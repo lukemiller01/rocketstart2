@@ -20,19 +20,31 @@ const setInfo = info => {
   else {
     var check3 = document.getElementById('check3').style.display = "none";
   }
+  // Wording
   if(info.paragraphs == 0) { // No text
     var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
+    var verbsHeader = document.getElementById("verbsHeader").style.display = "none";
+    var verbExamples = document.getElementById('verbExamples').style.display = "none";
     var check4 = document.getElementById('check4').style.display = "none";
     var warning1 = document.getElementById('warning').style.display = "none";
   }
-  else if (info.words.length > 0){ // Text & there's a flagged word
-    var adverbsHeader = document.getElementById("adverbsHeader").style.display = "block";
-    var check4 = document.getElementById('check4').style.display = "none";
-    var warning1 = document.getElementById('warning').style.display = "block";
-    // TODO: Add an orange "caution" in place of check
+  else if (info.adverbs.length > 0 || info.verbs.length > 0) { // Text and there's at least one flagged word
+    if (info.adverbs.length > 0){ // Flagged adverb
+      var adverbsHeader = document.getElementById("adverbsHeader").style.display = "block";
+      var check4 = document.getElementById('check4').style.display = "none";
+      var warning1 = document.getElementById('warning').style.display = "block";
+    }
+    if (info.verbs.length > 0){
+      var verbsHeader = document.getElementById("verbsHeader").style.display = "block";
+      var verbExamples = document.getElementById('verbExamples').style.display = "block";
+      var check4 = document.getElementById('check4').style.display = "none";
+      var warning1 = document.getElementById('warning').style.display = "block";
+    }
   }
   else { // Text & there's no flagged word
     var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
+    var verbsHeader = document.getElementById("verbsHeader").style.display = "none";
+    var verbExamples = document.getElementById('verbExamples').style.display = "none";
     var check4 = document.getElementById('check4').style.display = "flex";
     var warning1 = document.getElementById('warning').style.display = "none";
   }
@@ -62,14 +74,25 @@ const setInfo = info => {
   document.getElementById('grade__slider').style.left = (info.grade)*10-20 + "%";
 
   // 1) Update the Wording text
-  document.getElementById('words').textContent = info.words.length;
-  // 2) Update the wording slider.
-  if (info.words.length > 4) {
-    info.words.length = 4;
+  totalFlagged = info.adverbs.length + info.verbs.length
+  if (totalFlagged > 4) {
+    totalFlagged = 4;
   }
-  document.getElementById('word__slider').style.left = (info.words.length)*25 + "%";
-  // 3) Update words list
-  document.getElementById('flaggedAdverbs').textContent = info.words.join(', ')
+  document.getElementById('words').textContent = totalFlagged;
+  // 2) Update the wording slider.
+  document.getElementById('word__slider').style.left = (totalFlagged)*25 + "%";
+  // 3) Update adverbs list
+  document.getElementById('flaggedAdverbs').textContent = info.adverbs.join(', ');
+  // 4) Update verbs list
+  document.getElementById('flaggedVerbs').textContent = info.verbs.join(', ');
+  for (i = 0; i < info.verbs.length; i++) { // Verbs
+    if ("to be".includes(info.verbs[i].toLowerCase())) {
+        document.getElementById('badExample').textContent = "\"I want to be a part of your team.\"";
+        document.getElementById('goodExample').textContent = "\"I’d love to join your team.\""
+    }
+}
+// TODO:
+  // Based on the # of flagged verbs, create an array and populate the array in the html file.
 
 };
 
@@ -81,8 +104,10 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
         paragraphs: msg.paragraphs,
         questions: msg.questions,
         grade: msg.grade,
-        words: msg.words
+        adverbs: msg.adverbs,
+        verbs: msg.verbs
       };
+      console.log(updatedInfo)
       setInfo(updatedInfo);
     }
 
@@ -139,8 +164,9 @@ document.getElementById("paragraph__container").classList.add("active__rs");
 document.getElementById("question__container").classList.remove("active__rs");
 document.getElementById("grade__container").classList.remove("active__rs");
 document.getElementById("wording__container").classList.remove("active__rs");
-// By default, remove Adverb header.
+// By default, remove wording headers.
 var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
+var verbsHeader = document.getElementById("verbsHeader").style.display = "none";
 
 // Listen for messages to change the explanation section
 // Paragraph explanation
