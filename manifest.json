@@ -14,15 +14,15 @@
   "content_scripts": [
     {
       "js": ["contentScript.js"],
-      "matches": ["https://www.linkedin.com/*"],
-      "css": ["./assets/popup.css"]
+      "matches": ["https://www.linkedin.com/*"]
     }
   ],
 
   "web_accessible_resources": [
     {
-      "resources": ["popup.html","contentScript.js"],
-      "matches": ["https://*/*", "http://*/*"]
+      "resources": ["popup.html"],
+      "css": ["./assets/popup.css"],
+      "matches": ["https://www.linkedin.com/*"]
     }
   ]
 }

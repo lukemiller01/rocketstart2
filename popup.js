@@ -107,7 +107,6 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
         adverbs: msg.adverbs,
         verbs: msg.verbs
       };
-      console.log(updatedInfo)
       setInfo(updatedInfo);
     }
 

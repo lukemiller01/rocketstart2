@@ -1,4 +1,4 @@
-// THe following words should not be in the LinkedIn message:
+// The following words should not be in the LinkedIn message:
 adverbs = ["abnormally", "absentmindedly", "accidentally", "acidly", "actually", "adventurously", "afterwards", "almost", "always", "angrily", "annually", "anxiously", "arrogantly", "awkwardly", "badly", "bashfully", "beautifully", "bitterly", "bleakly", "blindly", "blissfully", "boastfully", "boldly", "bravely", "briefly", "brightly", "briskly", "broadly", "busily", "calmly", "carefully", "carelessly", "cautiously", "certainly", "cheerfully", "clearly", "cleverly", "closely", "coaxingly", "colorfully", "commonly", "continually", "coolly", "correctly", "courageously", "crossly", "cruelly", "curiously", "daily", "daintily", "dearly", "deceivingly", "delightfully", "deeply", "defiantly", "deliberately", "delightfully", "diligently", "dimly", "doubtfully", "dreamily", "easily", "elegantly", "energetically", "enormously", "enthusiastically", "equally", "especially", "even", "evenly", "eventually", "exactly", "excitedly", "extremely", "fairly", "faithfully", "famously", "far", "fast", "fatally", "ferociously", "fervently", "fiercely", "fondly", "foolishly", "fortunately", "frankly", "frantically", "freely", "frenetically", "frightfully", "fully", "furiously", "generally", "generously", "gently", "gladly", "gleefully", "gracefully", "gratefully", "greatly", "greedily", "happily", "hastily", "healthily", "heavily", "helpfully", "helplessly", "highly", "honestly", "hopelessly", "hourly", "hungrily", "immediately", "innocently", "inquisitively", "instantly", "intensely", "intently", "interestingly", "inwardly", "irritably", "jaggedly", "jealously", "joshingly", "joyfully", "joyously", "jovially", "jubilantly", "judgmentally", "justly", "keenly", "kiddingly", "kindheartedly", "kindly", "knavishly", "knottily", "knowingly", "knowledgeably", "kookily", "lazily", "less", "lightly", "likely", "limply", "lively", "loftily", "longingly", "loosely", "lovingly", "loudly", "loyally", "madly", "majestically", "meaningfully", "mechanically", "merrily", "miserably", "mockingly", "monthly", "mortally", "mostly", "mysteriously", "naturally", "nearly", "neatly", "needily", "nervously", "never", "nicely", "noisily", "not", "obediently", "obnoxiously", "oddly", "offensively", "officially", "often", "only", "openly", "optimistically", "overconfidently", "owlishly", "painfully", "partially", "patiently", "perfectly", "physically", "playfully", "politely", "poorly", "positively", "potentially", "powerfully", "promptly", "properly", "punctually", "quaintly", "quarrelsomely", "queasily", "queerly", "questionably", "questioningly", "quicker", "quickly", "quietly", "quirkily", "quizzically", "rapidly", "rarely", "readily", "really", "reassuringly", "recklessly", "regularly", "reluctantly", "repeatedly", "reproachfully", "restfully", "righteously", "rightfully", "rigidly", "roughly", "rudely", "sadly", "safely", "scarcely", "scarily", "searchingly", "sedately", "seemingly", "seldom", "selfishly", "separately", "seriously", "shakily", "sharply", "sheepishly", "shrilly", "shyly", "silently", "sleepily", "slowly", "smoothly", "softly", "solemnly", "solidly", "sometimes", "soon", "speedily", "stealthily", "sternly", "strictly", "successfully", "suddenly", "surprisingly", "suspiciously", "sweetly", "swiftly", "sympathetically", "tenderly", "tensely", "terribly", "thankfully", "thoroughly", "thoughtfully", "tightly", "tomorrow", "too", "tremendously", "triumphantly", "truly", "truthfully", "ultimately", "unabashedly", "unaccountably", "unbearably", "unethically", "unexpectedly", "unfortunately", "unimpressively", "unnaturally", "unnecessarily", "utterly", "upbeat", "upliftingly", "upright", "upside-down", "upward", "upwardly", "urgently", "usefully", "uselessly", "usually", "utterly", "vacantly", "vaguely", "vainly", "valiantly", "vastly", "verbally", "very", "viciously", "victoriously", "violently", "vivaciously", "voluntarily", "warmly", "weakly", "wearily", "wetly", "wholly", "wildly", "willfully", "wisely", "woefully", "wonderfully", "worriedly", "wrongly", "yawningly", "yearly", "yearningly", "yesterday", "yieldingly", "youthfully", "zealously", "zestfully", "zestily"];
 verbs = ["to be", "to have", "there are", "there is", "was"]
 
@@ -521,6 +521,7 @@ function toggleWindow(){
         document.getElementsByClassName("pvs-profile-actions--rtl")[0].classList.add("mr2");
         document.getElementsByClassName("pv-profile-sticky-header-v2__mini-profile-container")[0].style.minWidth = "";
 
+        // TODO - add an if statement for if the invitation window exists
         // Reset position of invitation window
         document.getElementsByClassName("artdeco-modal--layer-default")[0].style.position = "";
         document.getElementsByClassName("artdeco-modal--layer-default")[0].style.left = "";
@@ -623,3 +624,76 @@ window.addEventListener("resize", function(event) {
         }
     }
 });
+
+function createUseDiv() {
+    useRocketstart.innerHTML = `
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+        </head>
+        <body>
+            <div style="position: relative; display: flex; justify-content: center; align-items: center; column-gap: 1rem;">
+                <p>Did you make this connection with Rocketstart?</p>
+                <button style="border: 1px solid black; border-radius: 5px; height: min-content; background-color: lightgreen; min-width: 40px;">Yes</button>
+                <button style="border: 1px solid black; border-radius: 5px; height: min-content; background-color: lightcoral; min-width: 40px;">No</button>
+            </div>
+        </body>
+    </html>
+    `;
+}
+
+var useRocketstart = document.createElement('div');
+createUseDiv();
+
+// Checking if the user is on the "mynetwork" tab.
+    // If so, checking if the target div exists.
+    // If so, appending Rocketstart UI.
+// if(window.location.href === 'https://www.linkedin.com/mynetwork/' && document.getElementsByClassName('mn-summary-card-notification')) {  // If at least 1 LinkedIn invite was accepted
+//     var acceptedInvites = document.getElementsByClassName('mn-summary-card-notification');
+//     for (var i = 0; i < acceptedInvites.length; i++) {
+//         acceptedInvites[i].firstChild.insertBefore(useRocketstart, acceptedInvites[i].nextElementSibling);
+//     }
+// }
+
+function rocketstartUseAppend() {
+    if(window.location.href === 'https://www.linkedin.com/mynetwork/' && document.getElementsByClassName('invitation-card__container') != []) {  // If at least 1 LinkedIn invite was accepted
+        console.log('New div loaded');
+        invites = document.getElementsByClassName('invitation-card__container')
+        console.log(invites);
+        console.log(invites[0]);
+        // acceptedInvites.firstChild.insertBefore(useRocketstart, acceptedInvites.nextElementSibling);
+    }
+}
+
+// Mutation observer checks for if the element is the target
+const mutationObserver = new MutationObserver(mutations => {
+    mutations.forEach(function(mutation) {
+        if(mutation.addedNodes.length) {
+            if (mutation.target.classList.contains('artdeco-list__item') && mutation.target.classList != "newConnection") {
+                console.log(mutation);
+                mutation.target.setAttribute('class','newConnection');
+            }
+        }
+    });
+})
+
+// Listen for every element being added in the document
+mutationObserver.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+});
+
+// TODO: at this point...
+    // We tagged every item that needs to have a button appended.
+    // When the mutations are over,
+    // Loop through a for loop and add the necessary div to every element with the given class
+    
+    // This function currently works when the user navigates to the network tab,
+    // Because the mutation observer is never disconnected.
+
+    // The mutation observer should be disconnected when not on network tab.
+    // Therefore, a solution is needed to run this portion of the script only on mynetwork.
+    // And the rest of the content script only on a profile?
+
+    // On page refresh, the mutation observer should be reconnected.
