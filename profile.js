@@ -149,6 +149,7 @@ The function checks for if the active element is an input
 The window's event listener catches changes to the active element
 The purpose of this function is to keep the lastActiveElement fresh for listenToTyping
 */
+focusToggle = false;
 const listenActiveElement = function (callback) {
     let lastActiveElement = document.activeElement;
 
@@ -159,17 +160,18 @@ const listenActiveElement = function (callback) {
 
             // If the iframe is open, automatically change the position of the invitation window.
                 // This can't be completed in appendButton because there's an option to send a request w/o a note.
-            if(toggle && document.getElementsByClassName("artdeco-modal--layer-default")[0]) {
+            if(windowToggle && document.getElementsByClassName("artdeco-modal--layer-default")[0]) {
                 document.getElementsByClassName("artdeco-modal--layer-default")[0].style.position = "absolute";
                 newLeft = (window.innerWidth - iframeWidth - document.getElementsByClassName("artdeco-modal--layer-default")[0].offsetWidth) / 2;
                 document.getElementsByClassName("artdeco-modal--layer-default")[0].style.left = newLeft + "px";
             }
 
             if(isTextAreaOrInput(lastActiveElement)) {
+                focusToggle = true;
                 callback(lastActiveElement);
                 appendButton(lastActiveElement);
             }
-            else {
+            else if (windowToggle && focusToggle) { // Only resets insights if the focus changes and we know the iframe is visible
                 chrome.runtime.sendMessage({
                     from: 'contentScript',
                     subject: 'updateUI',
@@ -179,6 +181,7 @@ const listenActiveElement = function (callback) {
                     adverbs: [],
                     verbs: []
                 });
+                focusToggle = false;
             }
         }
     };
@@ -288,7 +291,7 @@ function createButton() {
     return btn;
 }
 function createFrame() {
-    toggle = false;
+    windowToggle = false;
     iframe.style.background = "white";
     iframe.style.height = "100%";
     iframe.style.width = "0px";
@@ -373,7 +376,7 @@ function appendButton(textElement) {
 
 function toggleWindow(){
     if(iframe.style.width == "0px"){
-        toggle = true;
+        windowToggle = true;
         iframe.style.borderLeft = "1px solid rgba(0,0,0,.15)";
         iframeWidth = window.innerWidth * .208333;
         iframe.style.width = iframeWidth + "px";
@@ -494,7 +497,10 @@ function toggleWindow(){
         document.addEventListener('mouseup', onMouseUp);
     }
     else{
-        toggle = false;
+        // TODO:
+            // This extension needs to be heavily refactored.
+            // If the tab changes, half of this content is not relevant.
+        windowToggle = false;
         iframe.style.borderLeft = "";
         iframe.style.width = "0px";
         var drag = document.getElementById("drag");
@@ -513,18 +519,21 @@ function toggleWindow(){
         document.getElementById("global-nav").style.paddingRight = "";
         document.getElementById("global-nav").style.width = "";
         // Sticky header:
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.margin = "";
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = "";
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingLeft = "";
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingRight = "";
-        document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.maxWidth = "";
-        document.getElementsByClassName("pvs-profile-actions--rtl")[0].classList.add("mr2");
-        document.getElementsByClassName("pv-profile-sticky-header-v2__mini-profile-container")[0].style.minWidth = "";
+        if(document.getElementsByClassName("scaffold-layout-toolbar__content")[0]) { // If the sticky header exists
+            document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.margin = "";
+            document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.width = "";
+            document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingLeft = "";
+            document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.paddingRight = "";
+            document.getElementsByClassName("scaffold-layout-toolbar__content")[0].style.maxWidth = "";
+            document.getElementsByClassName("pvs-profile-actions--rtl")[0].classList.add("mr2");
+            document.getElementsByClassName("pv-profile-sticky-header-v2__mini-profile-container")[0].style.minWidth = "";
+        }
 
-        // TODO - add an if statement for if the invitation window exists
         // Reset position of invitation window
-        document.getElementsByClassName("artdeco-modal--layer-default")[0].style.position = "";
-        document.getElementsByClassName("artdeco-modal--layer-default")[0].style.left = "";
+        if(document.getElementsByClassName("artdeco-modal--layer-default")[0]) { // If the invitation window exists.
+            document.getElementsByClassName("artdeco-modal--layer-default")[0].style.position = "";
+            document.getElementsByClassName("artdeco-modal--layer-default")[0].style.left = "";
+        }
 
         // Paragraph scale, reset other insights
         chrome.runtime.sendMessage({
@@ -552,7 +561,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
 
 // Listen for changes in the window width
 window.addEventListener("resize", function(event) {
-    if(toggle) {
+    if(windowToggle) {
         // Automatically set the maximum and minimum extension widths
         if ( parseInt(iframe.style.width) > window.innerWidth * .291666) {
             if(window.innerWidth * .291666 >= 200) { // Minimum width
@@ -625,75 +634,4 @@ window.addEventListener("resize", function(event) {
     }
 });
 
-function createUseDiv() {
-    useRocketstart.innerHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-        </head>
-        <body>
-            <div style="position: relative; display: flex; justify-content: center; align-items: center; column-gap: 1rem;">
-                <p>Did you make this connection with Rocketstart?</p>
-                <button style="border: 1px solid black; border-radius: 5px; height: min-content; background-color: lightgreen; min-width: 40px;">Yes</button>
-                <button style="border: 1px solid black; border-radius: 5px; height: min-content; background-color: lightcoral; min-width: 40px;">No</button>
-            </div>
-        </body>
-    </html>
-    `;
-}
-
-var useRocketstart = document.createElement('div');
-createUseDiv();
-
-// Checking if the user is on the "mynetwork" tab.
-    // If so, checking if the target div exists.
-    // If so, appending Rocketstart UI.
-// if(window.location.href === 'https://www.linkedin.com/mynetwork/' && document.getElementsByClassName('mn-summary-card-notification')) {  // If at least 1 LinkedIn invite was accepted
-//     var acceptedInvites = document.getElementsByClassName('mn-summary-card-notification');
-//     for (var i = 0; i < acceptedInvites.length; i++) {
-//         acceptedInvites[i].firstChild.insertBefore(useRocketstart, acceptedInvites[i].nextElementSibling);
-//     }
-// }
-
-function rocketstartUseAppend() {
-    if(window.location.href === 'https://www.linkedin.com/mynetwork/' && document.getElementsByClassName('invitation-card__container') != []) {  // If at least 1 LinkedIn invite was accepted
-        console.log('New div loaded');
-        invites = document.getElementsByClassName('invitation-card__container')
-        console.log(invites);
-        console.log(invites[0]);
-        // acceptedInvites.firstChild.insertBefore(useRocketstart, acceptedInvites.nextElementSibling);
-    }
-}
-
-// Mutation observer checks for if the element is the target
-const mutationObserver = new MutationObserver(mutations => {
-    mutations.forEach(function(mutation) {
-        if(mutation.addedNodes.length) {
-            if (mutation.target.classList.contains('artdeco-list__item') && mutation.target.classList != "newConnection") {
-                console.log(mutation);
-                mutation.target.setAttribute('class','newConnection');
-            }
-        }
-    });
-})
-
-// Listen for every element being added in the document
-mutationObserver.observe(document.documentElement, {
-    childList: true,
-    subtree: true,
-});
-
-// TODO: at this point...
-    // We tagged every item that needs to have a button appended.
-    // When the mutations are over,
-    // Loop through a for loop and add the necessary div to every element with the given class
-    
-    // This function currently works when the user navigates to the network tab,
-    // Because the mutation observer is never disconnected.
-
-    // The mutation observer should be disconnected when not on network tab.
-    // Therefore, a solution is needed to run this portion of the script only on mynetwork.
-    // And the rest of the content script only on a profile?
-
-    // On page refresh, the mutation observer should be reconnected.
+console.log("Executed...")
