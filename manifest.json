@@ -34,7 +34,7 @@
 
   "web_accessible_resources": [
     {
-      "resources": ["popup.html"],
+      "resources": ["popup.html","assets/rocketstartLogo.svg"],
       "css": ["./assets/popup.css"],
       "matches": ["https://www.linkedin.com/*"]
     }

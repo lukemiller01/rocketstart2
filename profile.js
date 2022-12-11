@@ -279,15 +279,74 @@ An event listener is created in listenActiveElement.
 When the custom message box is focused in, the button is appended.
 */
 function createButton() {
-    btn.textContent = 'Rocketstart';
-    btn.style.textAlign = "center"
-    btn.style.padding = ".75rem"
-    
-    btn.style.display = "flex"
-    btn.style.flexDirection = "column"
+    // Div containing logo, shadow, and hover element:
+    btnDiv.style.display = "flex";
+    btnDiv.style.flexDirection = "row";
+    btnDiv.style.height = "28px";
+    btnDiv.style.marginTop = "-1rem";
+    btnDiv.style.textAlign = "center";
+    btnDiv.style.justifyContent = "flex-start";
+    btnDiv.style.alignItems = "center";
+
+    // Logo
+    btn.style.marginLeft = "-28px";
+    btn.style.width = "28px"
+    btn.style.height = "28px"
+    var logo = chrome.runtime.getURL("assets/rocketstartLogo.svg");
+    btn.style.backgroundImage = "url('" + logo + "')";
+    btn.style.borderRadius = "50%";
+    // This is hacky but I don't have a better solution at the moment.
+    btn.style.backgroundPosition = "center";
+    btn.style.backgroundSize = "38px";
+    btn.style.zIndex = "10";
+    btn.id = "rocketstart-button";
+
+    // Logo shadow:
+    btnShadow.style.width = "28px";
+    btnShadow.style.height = "28px";
+    btnShadow.style.borderRadius = "50%";
+    btnShadow.style.boxShadow = "5px 5px 10px gray";
+    btnShadow.style.zIndex = "0";
+
+    // On button hover div
+    btnHover.style.display = "flex";
+    btnHover.style.whiteSpace = "nowrap"
+    btnHover.style.height = "75%";
+    btnHover.style.alignItems = "center";
+    // btnHover.style.paddingLeft = "15px";
+    btnHover.style.paddingRight = "10px";
+    btnHover.style.boxShadow = "5px 5px 10px gray";
+    btnHover.style.borderRadius = "0px 10px 10px 0px";
+    btnHover.style.marginLeft = "-10px";
+    btnHover.style.background = "white";
+    btnHover.style.zIndex = "5";
+    btnHover.style.opacity = "0";
+    btnHover.innerHTML = `
+        <p style="font-size: 8px; font-weight: 600; font-family: 'Open Sans', sans-serif; margin: 0;">ROCKETSTART INSIGHTS</p>
+    `;
+
+    // Button transition:
+    btnHover.style.transitionProperty = "opacity";
+    btnHover.style.transitionDuration = "1s";
+    btnHover.style.transitionTimingFunction = "linear";
+
+    // Creating the hover effect:
+    btn.onmouseover = function(event){
+        btnHover.style.opacity = "1";
+        btnHover.style.paddingLeft = "15px";
+        btnHover.style.transition = "all .75s";
+    };
+    btn.onmouseleave = function(event){
+        btnHover.style.opacity = "0";
+        btnHover.style.paddingLeft = "0px";
+        btnHover.style.transition = "all .75s";
+    };
+
+
     btn.onclick = function(event) {
         toggleWindow();
     };
+
     return btn;
 }
 function createFrame() {
@@ -333,9 +392,15 @@ function createDiv() {
     `;
     document.body.appendChild(drag);
 }
+
+var btnDiv = document.createElement('div');
 var btn = document.createElement('button');
+var btnShadow = document.createElement('div')
+var btnHover = document.createElement('div');
+
 var drag = document.createElement('div');
 var iframe = document.createElement('iframe');
+
 createButton();
 createDiv();
 createFrame();
@@ -346,32 +411,11 @@ These styles aren't available when the button is created,
 So they're being implemented onto the button when the button is appended.
 */
 function appendButton(textElement) {
-    // Font styling
-    const linkedinParagraph = document.getElementsByClassName("t-14 pb2");
-    const paragraphObj = window.getComputedStyle(linkedinParagraph[0]);
-    var fontSize = paragraphObj.getPropertyValue("font-size");
-    // var fontWeight = paragraphObj.getPropertyValue("font-weight");
-    btn.style.fontSize = fontSize
-    btn.style.fontWeight = "bold" // Replaced LinkedIn text fontWeight with bold for button pop
-
-    // Box styling
-    const linkedinBox = document.getElementById("custom-message");
-    const boxObj = window.getComputedStyle(linkedinBox);
-    var borderRadius = boxObj.getPropertyValue("border-radius");
-    var borderColor = boxObj.getPropertyValue("border-color");
-    var boxShadow = boxObj.getPropertyValue("box-shadow");
-    btn.style.borderRadius = borderRadius
-    btn.style.borderColor = borderColor
-    // The Linkedin custom message box border changes on focus
-    // But the Rocketstart button should be static
-    // The button is appended every focus-in
-    // Therefore, the boxShadow should only be changed if it has the default value
-    if (boxShadow == "rgba(0, 0, 0, 0.6) 0px 0px 0px 1px inset") {
-        btn.style.boxShadow = boxShadow
-    }
-
     // Appending button
-    textElement.parentElement.insertBefore(btn, textElement.nextElementSibling);
+    textElement.parentElement.insertBefore(btnDiv, textElement.nextElementSibling);
+    btnDiv.appendChild(btnShadow);
+    btnDiv.appendChild(btn);
+    btnDiv.appendChild(btnHover);
 }
 
 function toggleWindow(){
