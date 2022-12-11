@@ -634,4 +634,19 @@ window.addEventListener("resize", function(event) {
     }
 });
 
-console.log("Executed...")
+// Listen for if the invitiation window is open, to remove the iframe if the invitation window is closed.
+const mutationObserverProfile = new MutationObserver(mutations => {
+    mutations.forEach(function(mutation) {
+        mutation.removedNodes.forEach(function(node) {
+            if (mutation.target.id == "artdeco-modal-outlet" && windowToggle) {
+                toggleWindow();
+            }
+        });
+    });
+});
+
+// Listen for every element being added in the document
+mutationObserverProfile.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+});
