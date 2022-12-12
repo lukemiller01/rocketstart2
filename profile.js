@@ -325,11 +325,6 @@ function createButton() {
         <p style="font-size: 8px; font-weight: 600; font-family: 'Open Sans', sans-serif; margin: 0;">ROCKETSTART INSIGHTS</p>
     `;
 
-    // Button transition:
-    btnHover.style.transitionProperty = "opacity";
-    btnHover.style.transitionDuration = "1s";
-    btnHover.style.transitionTimingFunction = "linear";
-
     // Creating the hover effect:
     btn.onmouseover = function(event){
         btnHover.style.opacity = "1";
