@@ -23,7 +23,9 @@ const setInfo = info => {
   // Wording
   if(info.paragraphs == 0) { // No text
     var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
+    var adverbsText = document.getElementById("flaggedAdverbs").style.display = "none";
     var verbsHeader = document.getElementById("verbsHeader").style.display = "none";
+    var verbsText = document.getElementById("flaggedVerbs").style.display = "none";
     var verbExamples = document.getElementById('verbExamples').style.display = "none";
     var verbExamplesHeading = document.getElementById("verbExamplesHeading").style.display = "none";
     var check4 = document.getElementById('check4').style.display = "none";
@@ -32,14 +34,17 @@ const setInfo = info => {
   else if (info.adverbs.length > 0 || info.verbs.length > 0) { // Text and there's at least one flagged word
     if (info.adverbs.length > 0){ // Flagged adverb
       var adverbsHeader = document.getElementById("adverbsHeader").style.display = "block";
+      var adverbsText = document.getElementById("flaggedAdverbs").style.display = "block";
       var check4 = document.getElementById('check4').style.display = "none";
       var warning1 = document.getElementById('warning').style.display = "block";
     }
     else {
       var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
+      var adverbsText = document.getElementById("flaggedAdverbs").style.display = "none";
     }
     if (info.verbs.length > 0){ // Flagged verb
       var verbsHeader = document.getElementById("verbsHeader").style.display = "block";
+      var verbsText = document.getElementById("flaggedVerbs").style.display = "block";
       var verbExamplesHeading = document.getElementById("verbExamplesHeading").style.display = "block";
       var verbExamples = document.getElementById('verbExamples').style.display = "block";
       var check4 = document.getElementById('check4').style.display = "none";
@@ -50,6 +55,7 @@ const setInfo = info => {
     }
     else {
       var verbsHeader = document.getElementById("verbsHeader").style.display = "none";
+      var verbsText = document.getElementById("flaggedVerbs").style.display = "none";
     }
   }
   else { // Text & there's no flagged word
@@ -97,20 +103,25 @@ const setInfo = info => {
   // 4) Update verbs list
   document.getElementById('flaggedVerbs').textContent = info.verbs.join(', ');
 
-  // console.log(info.verbs.length);
-  // TODO: based on the verb in info.verbs[i].toLowerCase(), add examples to the div.
-    // Need to remove the added div in the verbExamples every time this function is called
+  numerousFlaggedVerbs = false;
   for (i = 0; i < info.verbs.length; i++) { // Verbs
-    var example =  populateExamples(info.verbs[i]);
+    if(i+1 != info.verbs.length) {
+      numerousFlaggedVerbs = true;
+    }
+    else {
+      numerousFlaggedVerbs = false;
+    }
+    var example =  populateExamples(info.verbs[i], numerousFlaggedVerbs);
     document.getElementById("verbExamples").appendChild(example);
   }
 };
 
-function populateExamples(verb) {
+function populateExamples(verb, horizontalRule) {
   var exampleDiv = document.createElement('div');
   exampleDiv.id = "rocketstart-examples-div";
 
-  exampleDiv.innerHTML = `
+  if(!horizontalRule) {
+    exampleDiv.innerHTML = `
     <div class="good__example">
       <span class="material-icons explanation__cross">close</span>
       <p class="badExample"></p>
@@ -120,6 +131,21 @@ function populateExamples(verb) {
       <p class="goodExample"></p>
     </div>
   `;
+  }
+  else {
+    exampleDiv.innerHTML = `
+    <div class="good__example">
+      <span class="material-icons explanation__cross">close</span>
+      <p class="badExample"></p>
+    </div>
+    <div class="bad__example">
+      <span class="material-icons explanation__check">done</span>
+      <p class="goodExample"></p>
+    </div>
+    <hr class="horizontal__rule">
+    <div style="padding-bottom: .5rem;">
+  `;
+  }
 
   // Example phrases
   if(verb === "to be") {

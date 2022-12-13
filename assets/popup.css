@@ -58,10 +58,7 @@ h3 {
 h4 {
     font-size: 12px;
     font-weight: 500;
-    padding-bottom: .5rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-    /* TODO: change to media queries after design is done */
+    padding: .5rem;
 }
 
 p {
@@ -125,7 +122,7 @@ p {
 .insight__icon {
     padding: 0rem .5rem;
 
-    color: rgba(139, 192, 74, 1);
+    color: rgba(100, 185, 35, 1);
 }
 
 /* Wording warning mark */
@@ -181,16 +178,16 @@ p {
 
 /* Slider color gradients */
 .paragraph__gradient {
-    background:linear-gradient(90deg, rgba(255, 0, 0, 1) 0%, rgba(255, 0, 0, 1) 20%, rgba(255, 231, 51, 1) 40%, rgba(76, 175, 80, 1) 60%, rgba(255, 231, 51, 1) 80%, rgba(255, 0, 0, 1) 100%);
+    background:linear-gradient(90deg, rgba(220, 50, 20, 1) 0%, rgba(220, 50, 20, 1) 20%, rgba(255, 225, 35, 1) 40%, rgba(100, 185, 35, 1) 59%, rgba(255, 225, 35, 1) 80%, rgba(220, 50, 20, 1) 100%);
 }
 .question__gradient {
-    background:linear-gradient(90deg, rgba(255, 0, 0, 1) 0%, rgba(255, 231, 51, 1) 12.5%, rgba(76, 175, 80, 1) 25%, rgba(76, 175, 80, 1) 50%, rgba(255, 231, 51, 1) 62.5%, rgba(255, 0, 0, 1) 80%, rgba(255, 0, 0, 1) 100%);
+    background:linear-gradient(90deg, rgba(220, 50, 20, 1) 0%, rgba(255, 225, 35, 1) 12.5%, rgba(100, 185, 35, 1) 25%, rgba(100, 185, 35, 1) 50%, rgba(255, 225, 35, 1) 62.5%, rgba(220, 50, 20, 1) 80%, rgba(220, 50, 20, 1) 100%);
 }
 .grade__gradient {
-    background:linear-gradient(90deg, rgba(76, 175, 80, 1) 0%, rgba(76, 175, 80, 1) 25%, rgba(255, 231, 51, 1) 50%, rgba(255, 0, 0, 1) 75%, rgba(255, 0, 0, 1) 100%);
+    background:linear-gradient(90deg, rgba(100, 185, 35, 1) 0%, rgba(100, 185, 35, 1) 25%, rgba(255, 225, 35, 1) 50%, rgba(255, 225, 35, 1) 65%, rgba(220, 50, 20, 1) 85%, rgba(220, 50, 20, 1) 100%);
 }
 .word__gradient {
-    background:linear-gradient(90deg, rgba(76, 175, 80, 1) 0%, rgba(255, 231, 51, 1) 12.5%, rgba(255, 0, 0, 1) 24%, rgba(255, 0, 0, 1) 50%, rgba(255, 0, 0, 1) 80%, rgba(255, 0, 0, 1) 100%);
+    background:linear-gradient(90deg, rgba(100, 185, 35, 1) 0%, rgba(100, 185, 35, 1) 12.5%, rgba(255, 225, 35, 1) 25%, rgba(220, 50, 20, 1) 50%, rgba(220, 50, 20, 1) 100%);
 }
 
 /* Horizontal rule separating insights from explanations */
@@ -222,7 +219,6 @@ p {
     flex-direction: row;
     display: flex;
     padding-bottom: .5rem;
-    /* TODO: change to media queries after design is done */
 }
 
 .good__example {
@@ -230,16 +226,15 @@ p {
     flex-direction: row;
     display: flex;
     padding-bottom: .5rem;
-    /* TODO: change to media queries after design is done */
 }
 
 .explanation__cross {
-    color: rgba(163, 0, 0, 1);
+    color: rgba(220, 50, 20, 1);
     font-size: 20px;
 }
 
 .explanation__check {
-    color: rgba(139, 192, 74, 1);
+    color: rgba(100, 185, 35, 1);
     font-size: 20px;
 }
 
@@ -255,12 +250,9 @@ p {
     color: red;
 }
 
-.bold {
-    font-weight: bolder;
-}
-
-.italic {
+.italicBold {
     font-style: italic;
+    font-weight: bolder;
 }
 
 /* For 4k devices */
@@ -277,6 +269,9 @@ p {
     }
     h3 {
         font-size: 22px;
+    }
+    h4 {
+        font-size: 20px;
     }
     .insight__container {
         margin-bottom: 2.5rem;
@@ -307,6 +302,9 @@ p {
     h3 {
         font-size: 20px;
     }
+    h4 {
+        font-size: 18px;
+    }
     .insight__container {
         margin-bottom: 2rem;
     }
@@ -335,6 +333,9 @@ p {
     }
     h3 {
         font-size: 14px;
+    }
+    h4 {
+        font-size: 12px;
     }
     .insight__container {
         margin-bottom: 1.5rem;
@@ -365,6 +366,9 @@ p {
     h3 {
         font-size: 13px;
     }
+    h4 {
+        font-size: 11px;
+    }
     .insight__container {
         margin-bottom: 1.5rem;
     }
@@ -393,6 +397,9 @@ p {
     }
     h3 {
         font-size: 11px;
+    }
+    h4 {
+        font-size: 10px;
     }
     .insight__title {
         padding: .5rem;

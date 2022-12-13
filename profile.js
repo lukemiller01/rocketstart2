@@ -205,8 +205,8 @@ const listenToTyping = (element) => {
     var timer; // Timer identifier
     var activeTypingTimer; // Timer identifier
     var waitTime = 1500; // Wait time in milliseconds
-    var lastInput = element.value
-    var activelyTyping = false
+    var lastInput = element.value;
+    var activelyTyping = false;
     var lastTypeTime = new Date().getTime();
 
     dataPack = messageAnalysis(lastInput);
@@ -590,6 +590,19 @@ listenActiveElement(function (element) {
     if (element.id == "custom-message" && targetElementListener) {
         listenToTyping(element);
         targetElementListener = false;
+    }
+    else if (element.id == "custom-message") {
+        var lastInput = element.value;
+        dataPack = messageAnalysis(lastInput);
+        chrome.runtime.sendMessage({
+            from: 'contentScript',
+            subject: 'updateUI',
+            paragraphs: dataPack.paragraphs,
+            questions: dataPack.questions,
+            grade: dataPack.grade,
+            adverbs: dataPack.adverbs,
+            verbs: dataPack.verbs
+        });
     }
 });
 

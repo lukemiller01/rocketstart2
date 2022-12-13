@@ -173,13 +173,6 @@ const mutationObserverNetwork = new MutationObserver(mutations => {
         }
     });
 });
-// TODO button:
-    // Both Y & N:
-        // call a function that animates the div out of the page. Pass one var:
-            // 1. A true or false based on if the button was yes or no.
-    
-    // Only Y:
-        // +1 to DB
 
 // Listen for every element being added in the document
 mutationObserverNetwork.observe(document.documentElement, {
