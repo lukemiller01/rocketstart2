@@ -8,6 +8,9 @@ let lastUrl = location.href;
 if (lastUrl.includes("https://www.linkedin.com/in/")) {
   profileScript = true;
 }
+else if (lastUrl.includes("https://www.linkedin.com/mynetwork/")) {
+  networkScript = true;
+}
 
 // Listens for changes in the URL.
 new MutationObserver(() => {
@@ -23,5 +26,9 @@ function onUrlChange(url) {
   if (url.includes("https://www.linkedin.com/in/") && !profileScript) {
     chrome.runtime.sendMessage({text: "profile"});
     profileScript = true;
+  }
+  else if (url.includes("https://www.linkedin.com/mynetwork/") && !networkScript) {
+    chrome.runtime.sendMessage({text: "network"});
+    networkScript = true;
   }
 }
