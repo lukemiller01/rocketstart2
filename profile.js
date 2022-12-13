@@ -12,8 +12,11 @@ function syllable(word) {
             // Known words that are broken: something, somewhere, sometime, somehow
     word = word.replace(/(?:[^laeiouy]es|[^laeiouy]e)$/, '');
     word = word.replace(/^y/, '');
-    if (word && word.match(/[aeiouy]{1,2}/g)) {
+    if (word && word.match(/[aeiouy]{1,2}/g)) { // TODO "Be" is broken here, so an "else" needs to be added to return 1.
         return word.match(/[aeiouy]{1,2}/g).length;
+    }
+    else {
+        return 1; // Syllables can't be NaN
     }
   }
 
@@ -41,19 +44,18 @@ function messageAnalysis(text) {
 
     // # of sentences, includes periods, exclamation, questions
     numSentences = text.split('.').length + text.split(/\!{1,}/).length + questions - 2
-    // Edge case "Hi {name} - " returns grade level 12 because there are technically no sentences
-    if ( text.split(/-\n/).length - 1 || text.split(/ - \n/).length - 1) {
-        numSentences = numSentences + text.split(/-\n/).length - 1 + text.split(/ - \n/).length - 1;
+    // If the string ends with a word, there's no punctuation.
+    if(text.split(/[A-Za-z]$/).length - 1) {
+        numSentences = numSentences + 1;
     }
     // The readingLevel function will break if numSentences = 0.
     if(numSentences == 0) {
         numSentences = 1;
     }
-    // console.log(numSentences);
 
     // # of syllables
     numSyllables = 0;
-    text = text.replace('\'',''); // Removing apostrophes '
+    text = text.replaceAll('\'',''); // Removing apostrophes '
     var wordList = text.split(/[^A-Za-z]/);
     var wordCount = wordList.length;
 
@@ -85,7 +87,7 @@ function messageAnalysis(text) {
     // gradeLevel = .39 * (numWords/numSentences) + 11.8 * (numSyllables / numWords) - 15.59
     grade = 0
     if (text != '') {
-        readingLevel = 206.835 - 1.015*(numWords/numSentences) - 84.6*(numSyllables / numWords)
+        readingLevel = 206.835 - 1.015*(numWords/numSentences) - 84.6*(numSyllables / numWords);
         // console.log(readingLevel)
         switch(true) {
             case (readingLevel <= 50):
@@ -185,7 +187,7 @@ const listenActiveElement = function (callback) {
             }
         }
     };
-    window.addEventListener("focus", detectFocus, true)
+    window.addEventListener("focusin", detectFocus, true);
 };
 
 /* Step 4
@@ -536,9 +538,6 @@ function toggleWindow(){
         document.addEventListener('mouseup', onMouseUp);
     }
     else{
-        // TODO:
-            // This extension needs to be heavily refactored.
-            // If the tab changes, half of this content is not relevant.
         windowToggle = false;
         iframe.style.borderLeft = "";
         iframe.style.width = "0px";
@@ -586,8 +585,12 @@ function toggleWindow(){
 Upon a match occuring ("https://www.linkedin.com./in/*"),
 This script detects the focus of the cursor and if any typing is occuring.
 */
+targetElementListener = true
 listenActiveElement(function (element) {
-    listenToTyping(element);
+    if (element.id == "custom-message" && targetElementListener) {
+        listenToTyping(element);
+        targetElementListener = false;
+    }
 });
 
 // Listen for the popup to request the frame to be closed
@@ -679,6 +682,10 @@ const mutationObserverProfile = new MutationObserver(mutations => {
         mutation.removedNodes.forEach(function(node) {
             if (mutation.target.id == "artdeco-modal-outlet" && windowToggle) {
                 toggleWindow();
+            }
+            // So a new event listener can be attached.
+            if (mutation.target.id == "artdeco-modal-outlet") {
+                targetElementListener = true;
             }
         });
     });

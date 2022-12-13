@@ -25,6 +25,7 @@ const setInfo = info => {
     var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
     var verbsHeader = document.getElementById("verbsHeader").style.display = "none";
     var verbExamples = document.getElementById('verbExamples').style.display = "none";
+    var verbExamplesHeading = document.getElementById("verbExamplesHeading").style.display = "none";
     var check4 = document.getElementById('check4').style.display = "none";
     var warning1 = document.getElementById('warning').style.display = "none";
   }
@@ -34,11 +35,21 @@ const setInfo = info => {
       var check4 = document.getElementById('check4').style.display = "none";
       var warning1 = document.getElementById('warning').style.display = "block";
     }
-    if (info.verbs.length > 0){
+    else {
+      var adverbsHeader = document.getElementById("adverbsHeader").style.display = "none";
+    }
+    if (info.verbs.length > 0){ // Flagged verb
       var verbsHeader = document.getElementById("verbsHeader").style.display = "block";
+      var verbExamplesHeading = document.getElementById("verbExamplesHeading").style.display = "block";
       var verbExamples = document.getElementById('verbExamples').style.display = "block";
       var check4 = document.getElementById('check4').style.display = "none";
       var warning1 = document.getElementById('warning').style.display = "block";
+      if(document.getElementById("rocketstart-examples-div")) {
+        document.getElementById("rocketstart-examples-div").remove();
+      }
+    }
+    else {
+      var verbsHeader = document.getElementById("verbsHeader").style.display = "none";
     }
   }
   else { // Text & there's no flagged word
@@ -85,16 +96,51 @@ const setInfo = info => {
   document.getElementById('flaggedAdverbs').textContent = info.adverbs.join(', ');
   // 4) Update verbs list
   document.getElementById('flaggedVerbs').textContent = info.verbs.join(', ');
-  for (i = 0; i < info.verbs.length; i++) { // Verbs
-    if ("to be".includes(info.verbs[i].toLowerCase())) {
-        document.getElementById('badExample').textContent = "\"I want to be a part of your team.\"";
-        document.getElementById('goodExample').textContent = "\"I’d love to join your team.\""
-    }
-}
-// TODO:
-  // Based on the # of flagged verbs, create an array and populate the array in the html file.
 
+  // console.log(info.verbs.length);
+  // TODO: based on the verb in info.verbs[i].toLowerCase(), add examples to the div.
+    // Need to remove the added div in the verbExamples every time this function is called
+  for (i = 0; i < info.verbs.length; i++) { // Verbs
+    var example =  populateExamples(info.verbs[i]);
+    document.getElementById("verbExamples").appendChild(example);
+  }
 };
+
+function populateExamples(verb) {
+  var exampleDiv = document.createElement('div');
+  exampleDiv.id = "rocketstart-examples-div";
+
+  exampleDiv.innerHTML = `
+    <div class="good__example">
+      <span class="material-icons explanation__cross">close</span>
+      <p class="badExample"></p>
+    </div>
+    <div class="bad__example">
+      <span class="material-icons explanation__check">done</span>
+      <p class="goodExample"></p>
+    </div>
+  `;
+
+  // Example phrases
+  if(verb === "to be") {
+    exampleDiv.getElementsByClassName("badExample")[0].textContent = "I want to be a part of your team.";
+    exampleDiv.getElementsByClassName("goodExample")[0].textContent = "I\'d love to join your team.";
+  }
+  else if(verb === "to have") {
+    exampleDiv.getElementsByClassName("badExample")[0].textContent = "I\'d love to have a conversation with you.";
+    exampleDiv.getElementsByClassName("goodExample")[0].textContent = "I\'d love to chat with you.";
+  }
+  else if(verb === "there is" || verb === "there are") {
+    exampleDiv.getElementsByClassName("badExample")[0].textContent = "There are plenty of strengths that make me stand out.";
+    exampleDiv.getElementsByClassName("goodExample")[0].textContent = "I stand out because of these strengths.";
+  }
+  else if(verb === "was") {
+    exampleDiv.getElementsByClassName("badExample")[0].textContent = "I was in the position for two years.";
+    exampleDiv.getElementsByClassName("goodExample")[0].textContent = "I held the position for two years.";
+  }
+
+  return exampleDiv;
+}
 
 // Listen for messages from the contentScript.
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
