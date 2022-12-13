@@ -1,20 +1,18 @@
 {
   "name": "Rocketstart",
-  "description": "Maximize your opportunity to expand your professional network on LinkedIn through text analysis.",
+  "description": "Maximize your opportunity to expand your professional network on LinkedIn through text analysis on your invitation messages.",
   "version": "0.1",
   "offline_enabled": true,
   "manifest_version": 3,
   "icons": {
-    "192": "assets/logo192.png",
-    "512": "assets/logo512.png"
+    "16": "assets/rocketstartLogo16.png",
+    "48": "assets/rocketstartLogo48.png",
+    "128": "assets/rocketstartLogo128.png"
   },
-  "background": {
-    "service_worker": "background.js"
-  },
-  "host_permissions": [
-    "https://www.linkedin.com/*/"
-  ],
-  "permissions": ["scripting","activeTab","tabs"],
+  "background": {"service_worker": "background.js"},
+  "host_permissions": ["https://www.linkedin.com/*/"],
+
+  "permissions": ["scripting","tabs"],
   "homepage_url": "https://rocketstart.careers/",
 
   "content_scripts": [

@@ -693,11 +693,11 @@ window.addEventListener("resize", function(event) {
 const mutationObserverProfile = new MutationObserver(mutations => {
     mutations.forEach(function(mutation) {
         mutation.removedNodes.forEach(function(node) {
-            if (mutation.target.id == "artdeco-modal-outlet" && windowToggle) {
+            if (mutation.target.id === "artdeco-modal-outlet" && windowToggle) {
                 toggleWindow();
             }
             // So a new event listener can be attached.
-            if (mutation.target.id == "artdeco-modal-outlet") {
+            if (mutation.target.id === "artdeco-modal-outlet") {
                 targetElementListener = true;
             }
         });
@@ -708,4 +708,23 @@ const mutationObserverProfile = new MutationObserver(mutations => {
 mutationObserverProfile.observe(document.documentElement, {
     childList: true,
     subtree: true,
+});
+
+// Handle two or more messages being sent simultaneously.
+document.addEventListener("visibilitychange", () => {
+    // console.log(document.activeElement.id)
+    if (document.visibilityState === 'visible' && document.activeElement.id === "custom-message") {
+        lastInput = document.activeElement.value;
+        console.log(lastInput);
+        dataPack = messageAnalysis(lastInput);
+        chrome.runtime.sendMessage({
+            from: 'contentScript',
+            subject: 'updateUI',
+            paragraphs: dataPack.paragraphs,
+            questions: dataPack.questions,
+            grade: dataPack.grade,
+            adverbs: dataPack.adverbs,
+            verbs: dataPack.verbs
+        });
+    }
 });
